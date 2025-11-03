@@ -1,11 +1,14 @@
 package com.exammanager.controller;
 
+import com.exammanager.util.TeacherDialog;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import com.exammanager.model.Teacher;
 import com.exammanager.view.TeacherView;
+
+import java.util.Optional;
 
 public class TeacherController {
 
@@ -28,6 +31,19 @@ public class TeacherController {
         var teacherList = Teacher.generateExampleTeachers();
         System.out.println("Teacher List: " + teacherList);
         teacherView.getTeacherTable().setItems(teacherList);
+
+        teacherView.getEditSelectedButton().setOnMouseClicked(event -> {
+            Teacher selectedTeacher = teacherView.getTeacherTable().getSelectionModel().getSelectedItem();
+            var result = TeacherDialog.editTeacherDialog(selectedTeacher);
+            if (result.isPresent()) {
+                // TODO! HANDLE RESULT
+                var resultTeacher = result.get();
+                String str = resultTeacher.getFirstName() + " " + resultTeacher.getLastName();
+                System.out.println(str);
+            } else {
+                System.out.println("Result is null");
+            }
+        });
 
         addTextFieldListeners();
         addTableListener();

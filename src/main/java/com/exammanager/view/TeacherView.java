@@ -37,9 +37,6 @@ public class TeacherView extends VBox {
         // Creates a refresh button
         Button refreshButton = new Button("Refresh");
 
-        // TODO! REMOVE AFTER TESTING
-        refreshButton.setOnAction(event -> {showTestDialog();});
-
         // Creates growable empty space to push the refresh button to the right
         Region topBarSpacer = new Region();
         HBox.setHgrow(topBarSpacer, Priority.ALWAYS);
@@ -176,22 +173,6 @@ public class TeacherView extends VBox {
         searchBox.getChildren().addAll(searchLabel, searchText);
 
         getChildren().addAll(topBar, topbarSeparator, searchBox, mainContainer);
-    }
-
-    public static void showTestDialog() {
-        Dialog dialog = new Dialog();
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        // dialog.initStyle(StageStyle.UNDECORATED);
-        dialog.setHeight(300);
-        dialog.setWidth(400);
-        dialog.setTitle("Test Dialog");
-        dialog.setHeaderText("This is a test dialog");
-        dialog.resizableProperty().setValue(false);
-
-        ButtonType closeButton = new ButtonType("Close");
-        dialog.getDialogPane().getButtonTypes().addAll(closeButton, ButtonType.CANCEL);
-
-        dialog.showAndWait();
     }
 
     public TableView<Teacher> getTeacherTable() {
