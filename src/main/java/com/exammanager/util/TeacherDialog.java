@@ -91,8 +91,10 @@ public class TeacherDialog {
                 String department = textFieldDepartment.getText().trim();
                 String email = textFieldEmail.getText().trim();
 
+                int teacherId = teacher.getId();
+
                 // creates and returns a new teacher object constructed from the text field values
-                return new Teacher(firstName, lastName, department, email);
+                return new Teacher(teacherId, firstName, lastName, department, email);
             } else {
                 return null;
             }
