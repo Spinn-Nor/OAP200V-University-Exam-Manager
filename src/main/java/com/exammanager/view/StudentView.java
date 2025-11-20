@@ -65,7 +65,7 @@ public class StudentView extends VBox {
         studentTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_NEXT_COLUMN);
         studentTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-        // Defines teacherTable columns
+        // Defines studentTable columns
         TableColumn<Student, Integer> idCol = new TableColumn<>("ID");
         idCol.setPrefWidth(50);
         idCol.setCellValueFactory(
@@ -98,7 +98,7 @@ public class StudentView extends VBox {
 
         //Victoria
         // Adds columns to teacherTable
-        studentTable.getColumns().addAll(idCol, firstNameCol, lastNameCol, enrollmentYearCol, emailCol);
+        studentTable.getColumns().addAll(idCol, firstNameCol, lastNameCol, emailCol, enrollmentYearCol);
 
         // Creates a separator line between the table and the controls
         // TODO! Remove?
@@ -125,7 +125,7 @@ public class StudentView extends VBox {
 //        Separator controlSeparator = new Separator(Orientation.HORIZONTAL);
 
         //Victoria
-        // Creates a form for adding new teachers
+        // Creates a form for adding new students
         GridPane addForm = new GridPane();
         addForm.setHgap(10);
         addForm.setVgap(10);

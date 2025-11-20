@@ -1,5 +1,8 @@
 package com.exammanager.model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 //Victoria
 public class Student {
     private int id;
@@ -27,6 +30,21 @@ public class Student {
         this.lastName = lastName;
         this.email = email;
         this.enrollmentYear = enrollmentYear;
+    }
+
+    //Generate examples of Students
+    public static  ObservableList<Student> generateExampleStudents() {
+        ObservableList<Student> studentList = FXCollections.observableArrayList();
+
+        Student student1 = new Student(1, "Victoria", "Stefanov", "skjerabagera@school.com", 2);
+        Student student2 = new Student(2, "Synnøve", "Fevang", "hallaien@school.com", 2);
+        Student student3 = new Student(3, "Ola", "Normann", "heipådeg@school.com", 1);
+        Student student4 = new Student(4, "Katrine", "Hansen", "katr41@school.com", 3);
+        Student student5 = new Student(5, "Dimitar", "Petrov", "Petrov1999@school.com", 1);
+
+        studentList.addAll(student1, student2, student3, student4, student5);
+
+        return studentList;
     }
 
     //Getters (Reach data and sees what is inside. It looks inside the box.)
