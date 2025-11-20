@@ -16,6 +16,16 @@ public class AppController {
     private TeacherDAO teacherDao;
     private StudentDAO studentDao;
 
+    /**
+     * Controller for the application itself.
+     * <p>
+     * This controller-class is responsible for setting up the
+     * shared database connection, passing the DB-connection to
+     * the view-specific controllers, as well as connecting the
+     * other controllers with their respective views.
+     *
+     * @param mainView the application's main view
+     */
     public AppController(MainView mainView) {
         this.mainView = mainView;
     }

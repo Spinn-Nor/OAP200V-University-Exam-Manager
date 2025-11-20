@@ -3,7 +3,27 @@ package com.exammanager.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-//Victoria
+/**
+ * Represents a student in the Exam Manager application.
+ * <p>
+ * This class is a plain data holder (POJO) containing basic information
+ * about a student, including:
+ * <ul>
+ *     <li>ID</li>
+ *     <li>First name</li>
+ *     <li>Last name</li>
+ *     <li>Email address</li>
+ *     <li>Enrollment year</li>
+ * </ul>
+ * <p>
+ * It provides getters and setters for all fields so the data can be
+ * accessed and modified as necessary by the application.
+ * <p>
+ * The student class has two constructors: one with ID for handling database returns, and
+ * one without ID for adding new students.
+ *
+ * @author Victoria
+ */
 public class Student {
     private int id;
     private String firstName;

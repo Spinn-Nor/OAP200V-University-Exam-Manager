@@ -11,7 +11,24 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 
-//Victoria
+/**
+ * A view for managing students.
+ * <p>
+ * Provides a user interface with:
+ * <ul>
+ *     <li>A title bar and a refresh button</li>
+ *     <li>A search bar and clear-search button</li>
+ *     <li>A sortable table displaying student information (ID, first name, last name,
+ *     email address and enrollment year)</li>
+ *     <li>Buttons for editing and deleting students</li>
+ *     <li>A form for adding new students</li>
+ * </ul>
+ * <p>
+ * The view exposes getter methods for UI components so that the {@link com.exammanager.controller.StudentController}
+ * can bind functionality and handle user interaction.
+ *
+ * @author Victoria
+ */
 public class StudentView extends VBox {
 
     private TableView<Student> studentTable;

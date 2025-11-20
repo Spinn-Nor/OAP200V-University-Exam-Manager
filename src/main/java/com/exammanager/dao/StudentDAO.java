@@ -13,6 +13,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
+/**
+ * Implementation of the {@link DAO} interface for Student.
+ * <p>
+ * Provides database operations for the {@link Student} class, including CRUD (Create, Read, Update, Delete) functionality.
+ * <p>
+ * @author Bendik
+ */
 public class StudentDAO implements DAO<Student> {
 
     private final Connection conn;

@@ -6,6 +6,18 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
 
+/**
+ * The application's main view.
+ * <p>
+ * This class is responsible for the application's UI. It defines
+ * the overall layout of the application.
+ * <p>
+ * The MainView class also initializes the AppController class once
+ * the JavaFX scene graph is ready, connecting the various views
+ * with the application logic.
+ *
+ * @author Bendik
+ */
 public class MainView extends VBox {
 
     private final TabPane tabPane = new TabPane();

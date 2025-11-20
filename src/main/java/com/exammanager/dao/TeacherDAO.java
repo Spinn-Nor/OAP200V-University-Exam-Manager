@@ -10,12 +10,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Implementation of the {@link DAO} interface for Teacher.
  * <p>
  * Provides database operations for the {@link Teacher} class, including CRUD (Create, Read, Update, Delete) functionality.
+ * <p>
+ * @author Bendik
  */
 public class TeacherDAO implements DAO<Teacher> {
 

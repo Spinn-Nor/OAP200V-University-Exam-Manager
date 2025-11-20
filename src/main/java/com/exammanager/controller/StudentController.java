@@ -10,7 +10,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 
-//Victoria
+/**
+ * Controller class for adding functionality to the StudentView.
+ * <p>
+ * Handles interaction between {@link StudentView} (UI) and
+ * the {@link StudentDAO} (data access layer). Provides methods
+ * to load, add, edit and delete students, as well as to refresh
+ * the student table from StudentView.
+ * <p>
+ * @author Victoria & Bendik
+ */
 public class StudentController {
 
     // Reference to the student view
@@ -32,7 +41,7 @@ public class StudentController {
         initialize();
     }
 
-    //Victoria
+    // Victoria & Bendik
     private void initialize() {
         // Gets students from the database
         // FIXME! GENERATES EXAMPLE STUDENTS IF NO DATABASE CONNECTION
@@ -60,6 +69,7 @@ public class StudentController {
         addTableListener();
     }
 
+    // Bendik
     // Set button functionality
     private void initButtonFunctionality() {
 
@@ -126,6 +136,7 @@ public class StudentController {
         });
     }
 
+    // Bendik
     private void refreshStudentTable() {
         try {
             studentList.setAll(studentDAO.findAll());
@@ -134,7 +145,7 @@ public class StudentController {
         }
     }
 
-    //Victoria
+    // Victoria & Bendik
     // Adds ChangeListeners to TextFields in StudentView
     private void addTextFieldListeners() {
         var firstNameField = studentView.getFirstNameField();
@@ -173,7 +184,7 @@ public class StudentController {
         enrollmentYearField.textProperty().addListener(enrollmentYearNonDigitListener);
     }
 
-    //Victoria
+    // Victoria
     // Adds a ChangeListener to the table in studentView
     private void addTableListener() {
         var table = studentView.getStudentTable();

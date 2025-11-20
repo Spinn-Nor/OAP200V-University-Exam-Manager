@@ -11,6 +11,15 @@ import java.util.Optional;
 
 import com.exammanager.model.Teacher;
 
+/**
+ * A class for creating a dialog window for updating a teacher.
+ * <p>
+ * Contains a method which takes a teacher object as an argument, and
+ * displays a dialog window where the user can edit the teacher's first name,
+ * last name, department and email address.
+ *
+ * @author Bendik
+ */
 public class TeacherDialog {
 
     private static TextField textFieldFirstName;

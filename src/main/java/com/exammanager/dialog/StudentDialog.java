@@ -11,6 +11,15 @@ import java.util.Optional;
 
 import com.exammanager.model.Student;
 
+/**
+ * A class for creating a dialog window for updating a student.
+ * <p>
+ * Contains a method which takes a student object as an argument, and
+ * displays a dialog window where the user can edit the student's first name,
+ * last name, email address and enrollment year.
+ *
+ * @author Bendik
+ */
 public class StudentDialog {
 
     private static TextField textFieldFirstName;

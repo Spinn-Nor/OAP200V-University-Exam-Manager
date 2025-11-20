@@ -11,6 +11,16 @@ import com.exammanager.model.Teacher;
 import com.exammanager.view.TeacherView;
 import javafx.collections.transformation.FilteredList;
 
+/**
+ * Controller class for adding functionality to the TeacherView.
+ * <p>
+ * Handles interaction between {@link TeacherView} (UI) and
+ * the {@link TeacherDAO} (data access layer). Provides methods
+ * to load, add, edit and delete teachers, as well as to refresh
+ * the teacher table from TeacherView.
+ * <p>
+ * @author Bendik
+ */
 public class TeacherController {
 
     // Reference to the teacher view

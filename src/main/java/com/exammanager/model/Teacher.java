@@ -3,6 +3,27 @@ package com.exammanager.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+/**
+ * Represents a teacher in the Exam Manager application.
+ * <p>
+ * This class is a plain data holder (POJO) containing basic information
+ * about a teacher, including:
+ * <ul>
+ *     <li>ID</li>
+ *     <li>First name</li>
+ *     <li>Last name</li>
+ *     <li>Department</li>
+ *     <li>Email address</li>
+ * </ul>
+ * <p>
+ * It provides getters and setters for all fields so the data can be
+ * accessed and modified as necessary by the application.
+ * <p>
+ * The teacher class has two constructors: one with ID for handling database returns, and
+ * one without ID for adding new teachers.
+ *
+ * @author Bendik
+ */
 public class Teacher {
     private int id;
     private String firstName;

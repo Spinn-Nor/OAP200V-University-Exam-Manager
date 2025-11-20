@@ -11,7 +11,22 @@ import javafx.beans.property.SimpleStringProperty;
 import com.exammanager.model.Teacher;
 
 /**
- * Can sort multiple columns at once by holding shift
+ * A view for managing teachers.
+ * <p>
+ * Provides a user interface with:
+ * <ul>
+ *     <li>A title bar and a refresh button</li>
+ *     <li>A search bar and clear-search button</li>
+ *     <li>A sortable table displaying teacher information (ID, first name, last name,
+ *     department and email address)</li>
+ *     <li>Buttons for editing and deleting teachers</li>
+ *     <li>A form for adding new teachers</li>
+ * </ul>
+ * <p>
+ * The view exposes getter methods for UI components so that the {@link com.exammanager.controller.TeacherController}
+ * can bind functionality and handle user interaction.
+ *
+ * @author Bendik
  */
 public class TeacherView extends VBox {
 
