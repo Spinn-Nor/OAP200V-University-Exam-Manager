@@ -11,10 +11,6 @@ public class Student {
     private String email;
     private int enrollmentYear;
 
-    //empty constructor for database
-    public Student(){
-    }
-
     //Victoria
     public Student(int id, String firstName, String lastName, String email, int enrollmentYear) {
         this.id = id;

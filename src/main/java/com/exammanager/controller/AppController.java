@@ -1,18 +1,33 @@
 package com.exammanager.controller;
 
+import com.exammanager.dao.TeacherDAO;
+import com.exammanager.util.DatabaseConnection;
 import com.exammanager.view.MainView;
 import com.exammanager.controller.TeacherController;
+
+import java.sql.Connection;
 
 public class AppController {
 
     private MainView mainView;
+    private Connection conn;
+
+    private TeacherDAO teacherDao;
 
     public AppController(MainView mainView) {
         this.mainView = mainView;
     }
 
     public void start() {
-        // fixme! for testing
-        new TeacherController(mainView.getTeacherView());
+        // create shared database connection
+        conn = DatabaseConnection.getConnection();
+
+        // setup DAOs if database connection succeeds
+        if (conn != null) {
+            teacherDao = new TeacherDAO(conn);
+        }
+
+        // initialize controllers for each view
+        new TeacherController(mainView.getTeacherView(), teacherDao);
     }
 }

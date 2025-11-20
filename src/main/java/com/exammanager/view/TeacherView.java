@@ -18,12 +18,17 @@ import javafx.stage.StageStyle;
 public class TeacherView extends VBox {
 
     private TableView<Teacher> teacherTable;
+    private TextField searchText;
+    private Button clearSearchButton;
+    private Button refreshButton;
     private TextField firstNameField;
     private TextField lastNameField;
     private TextField emailField;
     private Button editSelectedButton;
     private Button deleteSelectedButton;
     private Button addButton;
+
+    private GridPane addForm;
 
     // TODO! LOCAL VARIABLES IN CONSTRUCTOR -> CLASS PROPERTIES
     public TeacherView() {
@@ -35,10 +40,7 @@ public class TeacherView extends VBox {
         title.setStyle("-fx-font-size: 24px; -fx-font-weight: bold");
 
         // Creates a refresh button
-        Button refreshButton = new Button("Refresh");
-
-        // TODO! REMOVE AFTER TESTING
-        refreshButton.setOnAction(event -> {showTestDialog();});
+        refreshButton = new Button("Refresh");
 
         // Creates growable empty space to push the refresh button to the right
         Region topBarSpacer = new Region();
@@ -59,7 +61,7 @@ public class TeacherView extends VBox {
         HBox mainContainer = new HBox();
         HBox.setHgrow(mainContainer, Priority.ALWAYS);
 
-        // Table test
+        // Teacher table
         teacherTable = new TableView<>();
         teacherTable.setPrefHeight(720);
         teacherTable.setPrefWidth(800);
@@ -111,21 +113,11 @@ public class TeacherView extends VBox {
         deleteSelectedButton = new Button("Delete");
         deleteSelectedButton.setDisable(true);
 
-        // TODO! DELETE AFTER TESTING
-        editSelectedButton.setOnAction(event -> {
-            var selected = teacherTable.getSelectionModel().getSelectedItem();
-            System.out.println(selected.getId());
-            System.out.println(selected.getFirstName());
-            System.out.println(selected.getLastName());
-            System.out.println(selected.getDepartment());
-            System.out.println(selected.getEmail());
-        });
-
         // Separator line between edit/delete buttons and add form
 //        Separator controlSeparator = new Separator(Orientation.HORIZONTAL);
 
         // Creates a form for adding new teachers
-        GridPane addForm = new GridPane();
+        addForm = new GridPane();
         addForm.setHgap(10);
         addForm.setVgap(10);
 
@@ -163,39 +155,41 @@ public class TeacherView extends VBox {
         mainContainer.getChildren().addAll(teacherTable, tableSeparator, controlBox);
 
         // Table search bar
-        int searchBoxSpacing = 10;
+        // TODO! fix searchbar width
         HBox searchBox = new HBox();
         searchBox.setPrefWidth(800);
-        Label searchLabel = new Label("Search:");
-        TextField searchText = new TextField();
-        searchText.setPrefWidth(720);
         searchBox.setAlignment(Pos.CENTER_LEFT);
-        searchBox.setSpacing(searchBoxSpacing);
-        // TODO! fix searchbar width
-        searchBox.setPrefWidth(teacherTable.getWidth() - searchBoxSpacing - searchLabel.getWidth());
-        searchBox.getChildren().addAll(searchLabel, searchText);
+        searchBox.setSpacing(10);
 
+        Label searchLabel = new Label("Search:");
+
+        searchText = new TextField();
+        searchText.setPrefWidth(620);
+        searchText.setPromptText("Search for first name, last name, department or email");
+
+        clearSearchButton = new Button("Clear search");
+
+        searchBox.setPrefWidth(teacherTable.getWidth());
+        searchBox.getChildren().addAll(searchLabel, searchText, clearSearchButton);
+
+        // Add everything to the view
         getChildren().addAll(topBar, topbarSeparator, searchBox, mainContainer);
-    }
-
-    public static void showTestDialog() {
-        Dialog dialog = new Dialog();
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        // dialog.initStyle(StageStyle.UNDECORATED);
-        dialog.setHeight(300);
-        dialog.setWidth(400);
-        dialog.setTitle("Test Dialog");
-        dialog.setHeaderText("This is a test dialog");
-        dialog.resizableProperty().setValue(false);
-
-        ButtonType closeButton = new ButtonType("Close");
-        dialog.getDialogPane().getButtonTypes().addAll(closeButton, ButtonType.CANCEL);
-
-        dialog.showAndWait();
     }
 
     public TableView<Teacher> getTeacherTable() {
         return teacherTable;
+    }
+
+    public TextField getSearchText() {
+        return searchText;
+    }
+
+    public Button getRefreshButton() {
+        return refreshButton;
+    }
+
+    public Button getClearSearchButton() {
+        return clearSearchButton;
     }
 
     public TextField getFirstNameField() {
@@ -220,5 +214,9 @@ public class TeacherView extends VBox {
 
     public Button getAddButton() {
         return addButton;
+    }
+
+    public GridPane getAddForm() {
+        return addForm;
     }
 }
