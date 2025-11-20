@@ -11,4 +11,12 @@ public class AlertUtil {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    public static void genericError(String header, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(header);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 }

@@ -2,7 +2,7 @@ package com.exammanager.controller;
 
 import com.exammanager.dao.TeacherDAO;
 import com.exammanager.util.AlertUtil;
-import com.exammanager.util.TeacherDialog;
+import com.exammanager.dialog.TeacherDialog;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,9 +16,10 @@ public class TeacherController {
     // Reference to the teacher view
     private final TeacherView teacherView;
 
-    // List of teachers used to populate teacherTable in TeacherView
+    // List of teachers from the database
     private ObservableList<Teacher> teacherList = FXCollections.observableArrayList();;
 
+    // FilteredList wrapper for the teacherList, used to sort teachers
     private FilteredList<Teacher> filteredTeacherList = new FilteredList<>(teacherList, p -> true);
 
     // DAO used for database operations on teachers
@@ -44,7 +45,7 @@ public class TeacherController {
         teacherView.getTeacherTable().setItems(filteredTeacherList);
 
         // Adds a listener to the search field and adds logic to allow searching all columns of the teacher table
-        teacherView.getSearchText().textProperty().addListener((observable, oldValue, newValue) -> {
+        teacherView.getSearchField().textProperty().addListener((observable, oldValue, newValue) -> {
             String searchQuery = (newValue == null || newValue.isEmpty()) ? "" : newValue.trim().toLowerCase();
             filteredTeacherList.setPredicate(teacher ->
                     searchQuery.isEmpty() ||
@@ -64,7 +65,7 @@ public class TeacherController {
 
         // Adds functionality to the clear search button in TeacherView
         teacherView.getClearSearchButton().setOnMouseClicked(event -> {
-            teacherView.getSearchText().clear();
+            teacherView.getSearchField().clear();
         });
 
         // Adds functionality to the refresh button in TeacherView
@@ -92,10 +93,10 @@ public class TeacherController {
 
         // Adds functionality to the delete button in TeacherView
         teacherView.getDeleteSelectedButton().setOnMouseClicked(event -> {
-            ObservableList<Teacher> teachersToDelete = teacherView.getTeacherTable().getSelectionModel().getSelectedItems();
+            ObservableList<Teacher> selectedTeachers = teacherView.getTeacherTable().getSelectionModel().getSelectedItems();
 
             try {
-                teacherDAO.deleteList(teachersToDelete);
+                teacherDAO.deleteList(selectedTeachers);
                 refreshTeacherTable();
             } catch(Exception e) {
                 AlertUtil.showDatabaseConnectionError("Error deleting teacher(s). No database connection.");
@@ -137,9 +138,9 @@ public class TeacherController {
         // Button set to disabled if either field is empty
         Runnable updateButtonState = () -> {
             boolean disableButton =
-            firstNameField.getText().trim().isEmpty() ||
-            lastNameField.getText().trim().isEmpty() ||
-            emailField.getText().trim().isEmpty();
+                firstNameField.getText().trim().isEmpty() ||
+                lastNameField.getText().trim().isEmpty() ||
+                emailField.getText().trim().isEmpty();
 
             addButton.setDisable(disableButton);
         };

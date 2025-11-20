@@ -46,6 +46,10 @@ public class Student {
     //Getters (Reach data and sees what is inside. It looks inside the box.)
 
     //Victoria
+    public int getId() {
+        return id;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -84,14 +88,4 @@ public class Student {
         this.enrollmentYear = enrollmentYear;
     }
 
-    //Victoria
-    //Not done
-    @Override
-    public String toString() {
-        return "";
-    }
-
-    public int getId() {
-        return id;
-    }
 }

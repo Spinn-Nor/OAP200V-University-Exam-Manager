@@ -9,8 +9,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 import com.exammanager.model.Teacher;
-import javafx.stage.Modality;
-import javafx.stage.StageStyle;
 
 /**
  * Can sort multiple columns at once by holding shift
@@ -18,7 +16,7 @@ import javafx.stage.StageStyle;
 public class TeacherView extends VBox {
 
     private TableView<Teacher> teacherTable;
-    private TextField searchText;
+    private TextField searchField;
     private Button clearSearchButton;
     private Button refreshButton;
     private TextField firstNameField;
@@ -163,14 +161,14 @@ public class TeacherView extends VBox {
 
         Label searchLabel = new Label("Search:");
 
-        searchText = new TextField();
-        searchText.setPrefWidth(620);
-        searchText.setPromptText("Search for first name, last name, department or email");
+        searchField = new TextField();
+        searchField.setPrefWidth(620);
+        searchField.setPromptText("Search for first name, last name, department or email");
 
         clearSearchButton = new Button("Clear search");
 
         searchBox.setPrefWidth(teacherTable.getWidth());
-        searchBox.getChildren().addAll(searchLabel, searchText, clearSearchButton);
+        searchBox.getChildren().addAll(searchLabel, searchField, clearSearchButton);
 
         // Add everything to the view
         getChildren().addAll(topBar, topbarSeparator, searchBox, mainContainer);
@@ -180,8 +178,8 @@ public class TeacherView extends VBox {
         return teacherTable;
     }
 
-    public TextField getSearchText() {
-        return searchText;
+    public TextField getSearchField() {
+        return searchField;
     }
 
     public Button getRefreshButton() {

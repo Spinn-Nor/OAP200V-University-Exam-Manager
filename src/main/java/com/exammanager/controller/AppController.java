@@ -1,5 +1,6 @@
 package com.exammanager.controller;
 
+import com.exammanager.dao.StudentDAO;
 import com.exammanager.dao.TeacherDAO;
 import com.exammanager.util.DatabaseConnection;
 import com.exammanager.view.MainView;
@@ -13,6 +14,7 @@ public class AppController {
     private Connection conn;
 
     private TeacherDAO teacherDao;
+    private StudentDAO studentDao;
 
     public AppController(MainView mainView) {
         this.mainView = mainView;
@@ -25,9 +27,11 @@ public class AppController {
         // setup DAOs if database connection succeeds
         if (conn != null) {
             teacherDao = new TeacherDAO(conn);
+            studentDao = new StudentDAO(conn);
         }
 
         // initialize controllers for each view
         new TeacherController(mainView.getTeacherView(), teacherDao);
+        new StudentController(mainView.getStudentView(), studentDao);
     }
 }

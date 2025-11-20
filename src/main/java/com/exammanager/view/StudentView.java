@@ -15,6 +15,9 @@ import javafx.stage.Modality;
 public class StudentView extends VBox {
 
     private TableView<Student> studentTable;
+    private TextField searchField;
+    private Button clearSearchButton;
+    private Button refreshButton;
     private TextField firstNameField;
     private TextField lastNameField;
     private TextField emailField;
@@ -34,10 +37,7 @@ public class StudentView extends VBox {
         title.setStyle("-fx-font-size: 24px; -fx-font-weight: bold");
 
         // Creates a refresh button
-        Button refreshButton = new Button("Refresh");
-
-        // TODO! REMOVE AFTER TESTING
-        refreshButton.setOnAction(event -> {showTestDialog();});
+        refreshButton = new Button("Refresh");
 
         // Creates growable empty space to push the refresh button to the right
         Region topBarSpacer = new Region();
@@ -111,16 +111,6 @@ public class StudentView extends VBox {
         deleteSelectedButton = new Button("Delete");
         deleteSelectedButton.setDisable(true);
 
-        // TODO! DELETE AFTER TESTING
-        editSelectedButton.setOnAction(event -> {
-            var selected = studentTable.getSelectionModel().getSelectedItem();
-            System.out.println(selected.getId());
-            System.out.println(selected.getFirstName());
-            System.out.println(selected.getLastName());
-            System.out.println(selected.getEmail());
-            System.out.println(selected.getEnrollmentYear());
-        });
-
         // Separator line between edit/delete buttons and add form
 //        Separator controlSeparator = new Separator(Orientation.HORIZONTAL);
 
@@ -138,14 +128,13 @@ public class StudentView extends VBox {
         lastNameField = new TextField();
         addForm.add(lastNameField, 1, 1);
 
-        // FIXME! DEPARTMENT SHOULD USE A DROPDOWN BOX
-        addForm.add(new Label("Email:"), 0, 3);
+        addForm.add(new Label("Email:"), 0, 2);
         emailField = new TextField();
-        addForm.add(emailField, 1, 3);
+        addForm.add(emailField, 1, 2);
 
-        addForm.add(new Label("Enrollment Year:"), 0, 2);
-        TextField depField = new TextField();
-        addForm.add(depField, 1, 2);
+        addForm.add(new Label("Enrollment Year:"), 0, 3);
+        enrollmentYearField = new TextField();
+        addForm.add(enrollmentYearField, 1, 3);
 
         addButton = new Button("Add");
         addButton.setDisable(true);
@@ -164,18 +153,23 @@ public class StudentView extends VBox {
         mainContainer.getChildren().addAll(studentTable, tableSeparator, controlBox);
 
         // Table search bar
-        int searchBoxSpacing = 10;
         HBox searchBox = new HBox();
         searchBox.setPrefWidth(800);
-        Label searchLabel = new Label("Search:");
-        TextField searchText = new TextField();
-        searchText.setPrefWidth(720);
         searchBox.setAlignment(Pos.CENTER_LEFT);
-        searchBox.setSpacing(searchBoxSpacing);
-        // TODO! fix searchbar width
-        searchBox.setPrefWidth(studentTable.getWidth() - searchBoxSpacing - searchLabel.getWidth());
-        searchBox.getChildren().addAll(searchLabel, searchText);
+        searchBox.setSpacing(10);
 
+        Label searchLabel = new Label("Search:");
+
+        searchField = new TextField();
+        searchField.setPrefWidth(620);
+        searchField.setPromptText("Search for first name, last name or email");
+
+        clearSearchButton = new Button("Clear search");
+
+        searchBox.setPrefWidth(studentTable.getWidth());
+        searchBox.getChildren().addAll(searchLabel, searchField, clearSearchButton);
+
+        // Add everything to the view
         getChildren().addAll(topBar, topbarSeparator, searchBox, mainContainer);
     }
 
@@ -199,6 +193,18 @@ public class StudentView extends VBox {
     //Victoria
     public TableView<Student> getStudentTable() {
         return studentTable;
+    }
+
+    public TextField getSearchField() {
+        return searchField;
+    }
+
+    public Button getClearSearchButton() {
+        return clearSearchButton;
+    }
+
+    public Button getRefreshButton() {
+        return refreshButton;
     }
 
     public TextField getFirstNameField() {

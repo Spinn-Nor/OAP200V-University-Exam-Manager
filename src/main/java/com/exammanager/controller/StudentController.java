@@ -1,10 +1,14 @@
 package com.exammanager.controller;
 
+import com.exammanager.dao.StudentDAO;
+import com.exammanager.dialog.StudentDialog;
 import com.exammanager.model.Student;
+import com.exammanager.util.AlertUtil;
 import com.exammanager.view.StudentView;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 
 //Victoria
 public class StudentController {
@@ -12,32 +16,127 @@ public class StudentController {
     // Reference to the student view
     private final StudentView studentView;
 
-    // List of students used to populate studentTable in StudentView
-    private final ObservableList<Student> studentList;
+    // List of students from the database
+    private ObservableList<Student> studentList = FXCollections.observableArrayList();
 
-    public StudentController(StudentView view) {
+    // FilteredList wrapper for the studentList, used to sort students
+    private FilteredList<Student> filteredStudentList = new FilteredList<>(studentList, p -> true);
+
+    // DAO used for database operations on students
+    private final StudentDAO studentDAO ;
+
+    public StudentController(StudentView view, StudentDAO studentDAO) {
         this.studentView = view;
-        studentList = FXCollections.observableArrayList();
+        this.studentDAO = studentDAO;
 
         initialize();
     }
 
     //Victoria
     private void initialize() {
-        // TODO! REMOVE AFTER TESTING
-        // Adds example students to the table for testing
-        var studentList = Student.generateExampleStudents();
-        System.out.println("Student List: " + studentList);
-        studentView.getStudentTable().setItems(studentList);
+        // Gets students from the database
+        // FIXME! GENERATES EXAMPLE STUDENTS IF NO DATABASE CONNECTION
+        try {
+            studentList.setAll(studentDAO.findAll());
+        } catch (Exception e) {
+            studentList.setAll(Student.generateExampleStudents());
+        }
 
+        // Adds students to the table in StudentView using the filteredTeacherList to allow searching
+        studentView.getStudentTable().setItems(filteredStudentList);
+
+        // Adds a listener to the search field and adds logic to allow searching all columns of the teacher table
+        studentView.getSearchField().textProperty().addListener((observable, oldValue, newValue) -> {
+            String searchQuery = (newValue == null || newValue.isEmpty()) ? "" : newValue.trim().toLowerCase();
+            filteredStudentList.setPredicate(student ->
+                    searchQuery.isEmpty() ||
+                    student.getFirstName().toLowerCase().contains(searchQuery) ||
+                    student.getLastName().toLowerCase().contains(searchQuery) ||
+                    student.getEmail().toLowerCase().contains(searchQuery));
+        });
+
+        initButtonFunctionality();
         addTextFieldListeners();
         addTableListener();
+    }
+
+    // Set button functionality
+    private void initButtonFunctionality() {
+
+        // Adds functionality to the clear search button in StudentView
+        studentView.getClearSearchButton().setOnMouseClicked(event -> {
+            studentView.getSearchField().clear();
+        });
+
+        // Adds functionality to the refresh button in StudentView
+        studentView.getRefreshButton().setOnMouseClicked(event -> {
+            refreshStudentTable();
+        });
+
+        // Adds functionality to the edit button in StudentView
+        studentView.getEditSelectedButton().setOnMouseClicked(event -> {
+            Student selectedStudent = studentView.getStudentTable().getSelectionModel().getSelectedItem();
+
+            var result = StudentDialog.editStudentDialog(selectedStudent);
+
+            if (result.isPresent()) {
+                var resultStudent = result.get();
+
+                try {
+                    studentDAO.updateSingle(resultStudent);
+                    refreshStudentTable();
+                } catch (Exception e) {
+                    AlertUtil.showDatabaseConnectionError("Error updating student. No database connection.");
+                }
+            }
+        });
+
+        // Adds functionality to the delete button in StudentView
+        studentView.getDeleteSelectedButton().setOnMouseClicked(event -> {
+            ObservableList<Student> selectedStudents = studentView.getStudentTable().getSelectionModel().getSelectedItems();
+
+            try {
+                studentDAO.deleteList(selectedStudents);
+                refreshStudentTable();
+            } catch (Exception e) {
+                AlertUtil.showDatabaseConnectionError("Error deleting student(s). No database connection.");
+            }
+        });
+
+        // Adds functionality to the add student button in StudentView
+        studentView.getAddButton().setOnMouseClicked(event -> {
+            int newStudentEnrollmentYear = Integer.parseInt(studentView.getEnrollmentYearField().getText().trim());
+            Student studentToBeAdded = new Student(
+                    studentView.getFirstNameField().getText().trim(),
+                    studentView.getLastNameField().getText().trim(),
+                    studentView.getEmailField().getText().trim(),
+                    newStudentEnrollmentYear
+            );
+
+            try {
+                studentDAO.addSingle(studentToBeAdded);
+                studentView.getFirstNameField().clear();
+                studentView.getLastNameField().clear();
+                studentView.getEmailField().clear();
+                studentView.getEnrollmentYearField().clear();
+                refreshStudentTable();
+            } catch (Exception e) {
+                AlertUtil.showDatabaseConnectionError("Error adding student. No database connection.");
+            }
+        });
+    }
+
+    private void refreshStudentTable() {
+        try {
+            studentList.setAll(studentDAO.findAll());
+        }  catch (Exception e) {
+            AlertUtil.showDatabaseConnectionError("Error while trying to refresh. No database connection.");
+        }
     }
 
     //Victoria
     // Adds ChangeListeners to TextFields in StudentView
     private void addTextFieldListeners() {
-        // TODO! ADD DEPARTMENT
         var firstNameField = studentView.getFirstNameField();
         var lastNameField = studentView.getLastNameField();
         var emailField = studentView.getEmailField();
@@ -48,21 +147,30 @@ public class StudentController {
         // Button set to disabled if either field is empty
         Runnable updateButtonState = () -> {
             boolean disableButton =
-                    firstNameField.getText().trim().isEmpty() ||
-                            lastNameField.getText().trim().isEmpty() ||
-                            emailField.getText().trim().isEmpty() ||
-                            enrollmentYearField.getText().trim().isEmpty();
+                firstNameField.getText().trim().isEmpty() ||
+                lastNameField.getText().trim().isEmpty() ||
+                emailField.getText().trim().isEmpty() ||
+                enrollmentYearField.getText().trim().isEmpty();
+
             addButton.setDisable(disableButton);
         };
 
         // Defines a listener that runs updateButtonState when the text in firstNameField, lastNameField, emailField or enrollmentYear in studentView changes
         ChangeListener<String> textFieldListener = (observable, oldValue, newValue) -> updateButtonState.run();
 
+        // Listener that prevents anything but digits from being entered into the enrollment year text field
+        ChangeListener<String> enrollmentYearNonDigitListener = (observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                enrollmentYearField.setText(oldValue);
+            }
+        };
+
         // Adds the listener to firstNameField, lastNameField, emailField & enrollmentYearField in studentView
         firstNameField.textProperty().addListener(textFieldListener);
         lastNameField.textProperty().addListener(textFieldListener);
         emailField.textProperty().addListener(textFieldListener);
         enrollmentYearField.textProperty().addListener(textFieldListener);
+        enrollmentYearField.textProperty().addListener(enrollmentYearNonDigitListener);
     }
 
     //Victoria
