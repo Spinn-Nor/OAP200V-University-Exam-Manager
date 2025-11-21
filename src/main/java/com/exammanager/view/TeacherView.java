@@ -127,7 +127,7 @@ public class TeacherView extends VBox {
         deleteSelectedButton.setDisable(true);
 
         // Separator line between edit/delete buttons and add form
-//        Separator controlSeparator = new Separator(Orientation.HORIZONTAL);
+        // Separator controlSeparator = new Separator(Orientation.HORIZONTAL);
 
         // Creates a form for adding new teachers
         addForm = new GridPane();
