@@ -1,5 +1,6 @@
 package com.exammanager.view;
 
+import com.exammanager.model.Exam;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -69,15 +70,21 @@ public class ExamView extends VBox {
 
         // Defines examTable columns
         TableColumn<Exam, Integer> idCol = new TableColumn<>("Student Id");
+        idCol.setPrefWidth(50);
+        idCol.setCellValueFactory(
+                data -> new SimpleIntegerProperty(data.getValue().getId()).asObject()
+        );
+
+        TableColumn<Exam, Integer> studentIdCol = new TableColumn<>("Student Id");
         studentIdCol.setPrefWidth(50);
         studentIdCol.setCellValueFactory(
                 data -> new SimpleIntegerProperty(data.getValue().getStudentId()).asObject()
         );
 
-        TableColumn<Exam, String> courseIdCol = new TableColumn<>("Course Id");
+        TableColumn<Exam, Integer> courseIdCol = new TableColumn<>("Course Id");
         courseIdCol.setPrefWidth(150);
         courseIdCol.setCellValueFactory(
-                data ->  new SimpleStringProperty(data.getValue().getCourseId())
+                data ->  new SimpleIntegerProperty(data.getValue().getCourseId()).asObject()
         );
 
         TableColumn<Exam, String> examDateCol = new TableColumn<>("Exam Date");
@@ -89,12 +96,12 @@ public class ExamView extends VBox {
         TableColumn<Exam, String> gradeCol = new TableColumn<>("Grade");
         gradeCol.setPrefWidth(150);
         gradeCol.setCellValueFactory(
-                data -> new SimpleStringProperty(data.getValue().getgrade())
+                data -> new SimpleStringProperty(data.getValue().getGrade())
         );
 
 
         // Adds columns to examTable
-        examTable.getColumns().addAll(idCol, StudentIdCol, CourseIdCol, ExamDateCol, GradeCol);
+        examTable.getColumns().addAll(idCol, studentIdCol, courseIdCol, examDateCol, gradeCol);
 
         // Creates a separator line between the table and the controls
         // TODO! Remove?
@@ -117,34 +124,34 @@ public class ExamView extends VBox {
         });
 
         // Separator line between edit/delete buttons and add form
-//        Separator controlSeparator = new Separator(Orientation.HORIZONTAL);
+        // Separator controlSeparator = new Separator(Orientation.HORIZONTAL);
 
         // Creates a form for adding new exams
         GridPane addForm = new GridPane();
         addForm.setHgap(10);
         addForm.setVgap(10);
 
-        addForm.add(new Label("Course Id:"), 0, 0);
+        addForm.add(new Label("Student Id:"), 0, 0);
+        // TODO! DROPDOWN LIST OF IDS?
+        studentIdField = new TextField();
+        addForm.add(studentIdField, 1, 0);
+
+        addForm.add(new Label("Course Id:"), 0, 1);
         courseIdField = new TextField();
-        addForm.add(courseIdField, 1, 0);
+        addForm.add(courseIdField, 1, 1);
 
-        addForm.add(new Label("Exam Date:"), 0, 1);
+        addForm.add(new Label("Exam Date:"), 0, 2);
         examDateField = new TextField();
-        addForm.add(examDateField, 1, 1);
+        addForm.add(examDateField, 1, 2);
 
-        // FIXME! DEPARTMENT SHOULD USE A DROPDOWN BOX
-        addForm.add(new Label("Department:"), 0, 2);
-        TextField depField = new TextField();
-        addForm.add(depField, 1, 2);
-
-        addForm.add(new Label("Email:"), 0, 3);
-        emailField = new TextField();
-        addForm.add(emailField, 1, 3);
+        addForm.add(new Label("Grade:"), 0, 3);
+        TextField gradeField = new TextField();
+        addForm.add(gradeField, 1, 3);
 
         addButton = new Button("Add");
         addButton.setDisable(true);
         addButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        addForm.add(addButton, 0, 4, 2, 1);
+        addForm.add(addButton, 0, 5, 2, 1);
 
         // Spacer to push add form to the bottom
         Region controlSpacer = new Region();
@@ -205,7 +212,7 @@ public class ExamView extends VBox {
         return examDateField;
     }
 
-    Public TextField getGradeField() {
+    public TextField getGradeField() {
         return gradeField;
     }
 

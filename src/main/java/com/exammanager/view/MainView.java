@@ -24,6 +24,7 @@ public class MainView extends VBox {
 
     private final TeacherView teacherView = new TeacherView();
     private final StudentView studentView = new StudentView();
+    private final ExamView examView = new ExamView();
 
     public MainView() {
         // TODO! add view as second argument to all tabs
@@ -32,7 +33,7 @@ public class MainView extends VBox {
 
         Tab studentsTab = new Tab("Students", studentView);
 
-        Tab examsTab = new Tab("Exams");
+        Tab examsTab = new Tab("Exams", examView);
 
         // Adds tabs to tabPane
         tabPane.getTabs().addAll(teachersTab, studentsTab, examsTab);
@@ -51,5 +52,9 @@ public class MainView extends VBox {
 
     public StudentView getStudentView() {
         return studentView;
+    }
+
+    public ExamView getExamView() {
+        return examView;
     }
 }
