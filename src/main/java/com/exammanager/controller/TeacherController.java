@@ -1,36 +1,138 @@
 package com.exammanager.controller;
 
+import com.exammanager.dao.TeacherDAO;
+import com.exammanager.util.AlertUtil;
+import com.exammanager.dialog.TeacherDialog;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import com.exammanager.model.Teacher;
 import com.exammanager.view.TeacherView;
+import javafx.collections.transformation.FilteredList;
 
+/**
+ * Controller class for adding functionality to the TeacherView.
+ * <p>
+ * Handles interaction between {@link TeacherView} (UI) and
+ * the {@link TeacherDAO} (data access layer). Provides methods
+ * to load, add, edit and delete teachers, as well as to refresh
+ * the teacher table from TeacherView.
+ * <p>
+ * @author Bendik
+ */
 public class TeacherController {
 
     // Reference to the teacher view
     private final TeacherView teacherView;
 
-    // List of teachers used to populate teacherTable in TeacherView
-    private final ObservableList<Teacher> teacherList;
+    // List of teachers from the database
+    private ObservableList<Teacher> teacherList = FXCollections.observableArrayList();;
 
-    public TeacherController(TeacherView view) {
+    // FilteredList wrapper for the teacherList, used to sort teachers
+    private FilteredList<Teacher> filteredTeacherList = new FilteredList<>(teacherList, p -> true);
+
+    // DAO used for database operations on teachers
+    private final TeacherDAO teacherDAO;
+
+    public TeacherController(TeacherView view, TeacherDAO teacherDAO) {
         this.teacherView = view;
-        teacherList = FXCollections.observableArrayList();
+        this.teacherDAO = teacherDAO;
 
         initialize();
     }
 
     private void initialize() {
-        // TODO! REMOVE AFTER TESTING
-        // Adds example teachers to the table for testing
-        var teacherList = Teacher.generateExampleTeachers();
-        System.out.println("Teacher List: " + teacherList);
-        teacherView.getTeacherTable().setItems(teacherList);
+        // Gets teachers from the database
+        // FIXME! GENERATES EXAMPLE TEACHERS IF NO DATABASE CONNECTION
+        try {
+            teacherList.setAll(teacherDAO.findAll());
+        } catch(Exception e) {
+            teacherList.setAll(Teacher.generateExampleTeachers());
+        }
 
+        // Adds teachers to the table in TeacherView using the filteredTeacherList to allow searching
+        teacherView.getTeacherTable().setItems(filteredTeacherList);
+
+        // Adds a listener to the search field and adds logic to allow searching all columns of the teacher table
+        teacherView.getSearchField().textProperty().addListener((observable, oldValue, newValue) -> {
+            String searchQuery = (newValue == null || newValue.isEmpty()) ? "" : newValue.trim().toLowerCase();
+            filteredTeacherList.setPredicate(teacher ->
+                    searchQuery.isEmpty() ||
+                    teacher.getFirstName().toLowerCase().contains(searchQuery) ||
+                    teacher.getLastName().toLowerCase().contains(searchQuery) ||
+                    teacher.getDepartment().toLowerCase().contains(searchQuery) ||
+                    teacher.getEmail().toLowerCase().contains(searchQuery));
+        });
+
+        initButtonFunctionality();
         addTextFieldListeners();
         addTableListener();
+    }
+
+    // Set button functionality
+    private void initButtonFunctionality() {
+
+        // Adds functionality to the clear search button in TeacherView
+        teacherView.getClearSearchButton().setOnMouseClicked(event -> {
+            teacherView.getSearchField().clear();
+        });
+
+        // Adds functionality to the refresh button in TeacherView
+        teacherView.getRefreshButton().setOnMouseClicked(event -> {
+            refreshTeacherTable();
+        });
+
+        // Adds functionality to the edit button in TeacherView
+        teacherView.getEditSelectedButton().setOnMouseClicked(event -> {
+            Teacher selectedTeacher = teacherView.getTeacherTable().getSelectionModel().getSelectedItem();
+
+            var result = TeacherDialog.editTeacherDialog(selectedTeacher);
+
+            if (result.isPresent()) {
+                var resultTeacher = result.get();
+
+                try {
+                    teacherDAO.updateSingle(resultTeacher);
+                    refreshTeacherTable();
+                } catch(Exception e) {
+                    AlertUtil.showDatabaseConnectionError("Error updating teacher. No database connection.");
+                }
+            }
+        });
+
+        // Adds functionality to the delete button in TeacherView
+        teacherView.getDeleteSelectedButton().setOnMouseClicked(event -> {
+            ObservableList<Teacher> selectedTeachers = teacherView.getTeacherTable().getSelectionModel().getSelectedItems();
+
+            try {
+                teacherDAO.deleteList(selectedTeachers);
+                refreshTeacherTable();
+            } catch(Exception e) {
+                AlertUtil.showDatabaseConnectionError("Error deleting teacher(s). No database connection.");
+            }
+        });
+
+        // Adds functionality to the add teacher button in TeacherView
+        teacherView.getAddButton().setOnMouseClicked(event -> {
+            Teacher teacherToBeAdded = new Teacher(
+                    teacherView.getFirstNameField().getText().trim(),
+                    teacherView.getLastNameField().getText().trim(),
+                    // FIXME! CHANGE TO DEPARTMENT FROM COMBOBOX
+                    "PLACEHOLDER DEPARTMENT",
+                    teacherView.getEmailField().getText().trim()
+            );
+
+            try {
+                teacherDAO.addSingle(teacherToBeAdded);
+                teacherView.getFirstNameField().clear();
+                teacherView.getLastNameField().clear();
+                teacherView.getEmailField().clear();
+                refreshTeacherTable();
+            } catch (Exception e) {
+                AlertUtil.showDatabaseConnectionError("Error adding teacher. No database connection.");
+            }
+        });
     }
 
     // Adds ChangeListeners to TextFields in TeacherView
@@ -46,9 +148,9 @@ public class TeacherController {
         // Button set to disabled if either field is empty
         Runnable updateButtonState = () -> {
             boolean disableButton =
-            firstNameField.getText().trim().isEmpty() ||
-            lastNameField.getText().trim().isEmpty() ||
-            emailField.getText().trim().isEmpty();
+                firstNameField.getText().trim().isEmpty() ||
+                lastNameField.getText().trim().isEmpty() ||
+                emailField.getText().trim().isEmpty();
 
             addButton.setDisable(disableButton);
         };
@@ -60,6 +162,14 @@ public class TeacherController {
         firstNameField.textProperty().addListener(textFieldListener);
         lastNameField.textProperty().addListener(textFieldListener);
         emailField.textProperty().addListener(textFieldListener);
+    }
+
+    private void refreshTeacherTable() {
+        try {
+            teacherList.setAll(teacherDAO.findAll());
+        } catch(Exception e) {
+            AlertUtil.showDatabaseConnectionError("Error while trying to refresh. No database connection.");
+        }
     }
 
     // Adds a ChangeListener to the table in teacherView
