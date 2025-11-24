@@ -54,8 +54,8 @@ public class TeacherDAO implements DAO<Teacher> {
             if (rs.next()) {
                 teacher = Optional.of(new Teacher(
                         rs.getInt("id"),
-                        rs.getString("firstName"),
-                        rs.getString("lastName"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
                         rs.getString("department"),
                         rs.getString("email")
                 ));
@@ -88,8 +88,8 @@ public class TeacherDAO implements DAO<Teacher> {
             while (rs.next()) {
                 Teacher teacher = new Teacher(
                         rs.getInt("id"),
-                        rs.getString("firstName"),
-                        rs.getString("lastName"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
                         rs.getString("department"),
                         rs.getString("email")
                 );
@@ -114,7 +114,7 @@ public class TeacherDAO implements DAO<Teacher> {
             return;
         }
 
-        String sql = "INSERT INTO teacher (firstName, lastName, department, email) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO teacher (first_name, last_name, department, email) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, teacher.getFirstName());
@@ -141,7 +141,7 @@ public class TeacherDAO implements DAO<Teacher> {
             return;
         }
 
-        String sql = "UPDATE teacher SET firstName = ?, lastName = ?, department = ?, email = ? WHERE id = ?";
+        String sql = "UPDATE teacher SET first_name = ?, last_name = ?, department = ?, email = ? WHERE id = ?";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, teacher.getFirstName());

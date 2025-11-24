@@ -56,10 +56,10 @@ public class StudentDAO implements DAO<Student> {
             if (rs.next()) {
                 student = Optional.of(new Student(
                         rs.getInt("id"),
-                        rs.getString("firstName"),
-                        rs.getString("lastName"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
                         rs.getString("email"),
-                        rs.getInt("enrollmentYear")
+                        rs.getInt("enrollment_year")
                 ));
             }
         } catch (SQLException e) {
@@ -89,10 +89,10 @@ public class StudentDAO implements DAO<Student> {
             while (rs.next()) {
                 Student student = new Student(
                         rs.getInt("id"),
-                        rs.getString("firstName"),
-                        rs.getString("lastName"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
                         rs.getString("email"),
-                        rs.getInt("enrollmentYear")
+                        rs.getInt("enrollment_year")
                 );
                 students.add(student);
             }
@@ -115,7 +115,7 @@ public class StudentDAO implements DAO<Student> {
             return;
         }
 
-        String sql = "INSERT INTO student (id, firstName, lastName, department, email) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO student (first_name, last_name, email, enrollment_year) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, student.getFirstName());
@@ -142,7 +142,7 @@ public class StudentDAO implements DAO<Student> {
             return;
         }
 
-        String sql = "UPDATE student SET firstName = ?, lastName = ?, email = ?, enrollmentYear = ?, WHERE id = ?";
+        String sql = "UPDATE student SET first_name = ?, last_name = ?, email = ?, enrollment_year = ?, WHERE id = ?";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, student.getFirstName());
