@@ -32,11 +32,11 @@ public class Course {
     public static ObservableList<Course> generateExampleCourses() {
         ObservableList<Course> courseList = FXCollections.observableArrayList();
 
-        Course course1 = new Course(1, "random", "DIG1000", 5, 2);
-        Course course2 = new Course(2, "random2", "OAP200V", 3, 2);
-        Course course3 = new Course(3, "random3", "OBJ1000", 2, 1);
-        Course course4 = new Course(4, "random4","HMM200V", 1, 3);
-        Course course5 = new Course(5, "random5", "ELK3000", 6, 1);
+        Course course1 = new Course(1, "CS101", "Introduction to Programming", 10, 1);
+        Course course2 = new Course(2, "MATH201", "Linear Algebra", 10, 2);
+        Course course3 = new Course(3, "PHYS301", "Quantum Mechanics", 10, 1);
+        Course course4 = new Course(4, "random4","HMM200V", 10, 3);
+        Course course5 = new Course(5, "random5", "ELK3000", 10, 1);
 
         courseList.addAll(course1, course2, course3, course4, course5);
 
