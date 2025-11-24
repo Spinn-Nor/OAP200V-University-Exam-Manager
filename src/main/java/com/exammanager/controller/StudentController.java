@@ -105,11 +105,17 @@ public class StudentController {
         studentView.getDeleteSelectedButton().setOnMouseClicked(event -> {
             ObservableList<Student> selectedStudents = studentView.getStudentTable().getSelectionModel().getSelectedItems();
 
-            try {
-                studentDAO.deleteList(selectedStudents);
-                refreshStudentTable();
-            } catch (Exception e) {
-                AlertUtil.showDatabaseConnectionError("Error deleting student(s). No database connection.");
+            String alertTitleHeader = "Confirm deletion";
+            String plural = selectedStudents.size() == 1 ? "" : "s";
+            String alertContent = "Are you sure you want to delete " + selectedStudents.size() + " student" + plural + "?";
+
+            if (AlertUtil.confirmationAlert(alertTitleHeader, alertTitleHeader, alertContent)) {
+                try {
+                    studentDAO.deleteList(selectedStudents);
+                    refreshStudentTable();
+                } catch (Exception e) {
+                    AlertUtil.showDatabaseConnectionError("Error deleting student(s). No database connection.");
+                }
             }
         });
 

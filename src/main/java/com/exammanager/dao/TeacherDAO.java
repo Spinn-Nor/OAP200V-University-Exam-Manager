@@ -163,7 +163,8 @@ public class TeacherDAO implements DAO<Teacher> {
     @Override
     public void deleteList(ObservableList<Teacher> teachers) {
         if (conn == null) {
-            AlertUtil.showDatabaseConnectionError("Failed to delete teacher. No database connection.");
+            AlertUtil.showDatabaseConnectionError("Failed to delete teacher(s). No database connection.");
+            return;
         }
 
         String sql = "DELETE FROM teacher WHERE id = ?";
@@ -174,7 +175,7 @@ public class TeacherDAO implements DAO<Teacher> {
                 stmt.setInt(1, id);
                 stmt.executeUpdate();
             } catch (SQLException e) {
-                AlertUtil.showDatabaseConnectionError("Error while deleting teacher: " + e.getMessage());
+                AlertUtil.showDatabaseConnectionError("Error while deleting teacher(s): " + e.getMessage());
             }
         }
     }

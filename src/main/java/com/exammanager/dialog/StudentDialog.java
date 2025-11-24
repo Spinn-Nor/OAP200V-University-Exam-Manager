@@ -1,6 +1,8 @@
 package com.exammanager.dialog;
 
+import com.exammanager.util.AlertUtil;
 import javafx.beans.value.ChangeListener;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -108,6 +110,15 @@ public class StudentDialog {
                 return new Student(studentId, firstName, lastName, email, enrollmentYear);
             } else {
                 return null;
+            }
+        });
+
+        // Ask for confirmation when save button is clicked
+        dialog.getDialogPane().lookupButton(saveButton).addEventFilter(ActionEvent.ACTION, event -> {
+            if (AlertUtil.confirmationAlert("Confirm Save", "Confirm save", "Are you sure you want to save?")) {
+                dialog.close();
+            } else {
+                event.consume();
             }
         });
 

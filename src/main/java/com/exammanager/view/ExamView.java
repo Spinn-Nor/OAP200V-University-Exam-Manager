@@ -151,7 +151,7 @@ public class ExamView extends VBox {
         addButton = new Button("Add");
         addButton.setDisable(true);
         addButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        addForm.add(addButton, 0, 5, 2, 1);
+        addForm.add(addButton, 0, 4, 2, 1);
 
         // Spacer to push add form to the bottom
         Region controlSpacer = new Region();

@@ -164,7 +164,7 @@ public class StudentDAO implements DAO<Student> {
     @Override
     public void deleteList(ObservableList<Student> students) {
         if (conn == null) {
-            AlertUtil.showDatabaseConnectionError("Failed to delete student. No database connection.");
+            AlertUtil.showDatabaseConnectionError("Failed to delete student(s). No database connection.");
             return;
         }
 
@@ -176,7 +176,7 @@ public class StudentDAO implements DAO<Student> {
                 stmt.setInt(1, id);
                 stmt.executeUpdate();
             } catch (SQLException e)  {
-                AlertUtil.showDatabaseConnectionError("Error while deleting student: " + e.getMessage());
+                AlertUtil.showDatabaseConnectionError("Error while deleting student(s): " + e.getMessage());
             }
         }
     }

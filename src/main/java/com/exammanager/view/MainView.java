@@ -25,9 +25,9 @@ public class MainView extends VBox {
     private final TeacherView teacherView = new TeacherView();
     private final StudentView studentView = new StudentView();
     private final ExamView examView = new ExamView();
+    private final DepartmentView departmentView = new DepartmentView();
 
     public MainView() {
-        // TODO! add view as second argument to all tabs
         // Creates the individual tabs
         Tab teachersTab = new Tab("Teachers", teacherView);
 
@@ -35,8 +35,13 @@ public class MainView extends VBox {
 
         Tab examsTab = new Tab("Exams", examView);
 
+        Tab departmentTab = new Tab("Departments", departmentView);
+
         // Adds tabs to tabPane
         tabPane.getTabs().addAll(teachersTab, studentsTab, examsTab);
+
+        // TODO! ADD CONDITION
+        tabPane.getTabs().add(departmentTab);
 
         // Prevents closing tabs in the TabPane
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
@@ -52,6 +57,14 @@ public class MainView extends VBox {
 
     public StudentView getStudentView() {
         return studentView;
+    }
+
+    public TabPane getTabPane() {
+        return tabPane;
+    }
+
+    public DepartmentView getDepartmentView() {
+        return departmentView;
     }
 
     public ExamView getExamView() {

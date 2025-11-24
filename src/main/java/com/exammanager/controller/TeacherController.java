@@ -1,6 +1,7 @@
 package com.exammanager.controller;
 
 import com.exammanager.dao.TeacherDAO;
+import com.exammanager.login.AccessLevel;
 import com.exammanager.util.AlertUtil;
 import com.exammanager.dialog.TeacherDialog;
 import javafx.beans.value.ChangeListener;
@@ -35,6 +36,10 @@ public class TeacherController {
     // DAO used for database operations on teachers
     private final TeacherDAO teacherDAO;
 
+    // Access level of the currently logged-in user
+    // TODO! ADD TO CONSTRUCTOR
+    private AccessLevel accessLevel;
+
     public TeacherController(TeacherView view, TeacherDAO teacherDAO) {
         this.teacherView = view;
         this.teacherDAO = teacherDAO;
@@ -62,12 +67,25 @@ public class TeacherController {
                     teacher.getFirstName().toLowerCase().contains(searchQuery) ||
                     teacher.getLastName().toLowerCase().contains(searchQuery) ||
                     teacher.getDepartment().toLowerCase().contains(searchQuery) ||
-                    teacher.getEmail().toLowerCase().contains(searchQuery));
+                    teacher.getEmail().toLowerCase().contains(searchQuery)
+            );
         });
 
+        setUiElementAvailability();
         initButtonFunctionality();
         addTextFieldListeners();
         addTableListener();
+    }
+
+    // Set UI element visibility based on access the access level of the currently logged-in user
+    // FIXME! Maybe set to invisible by default?
+    private void setUiElementAvailability(/*AccessLevel accessLevel*/) {
+        var accessLevel = AccessLevel.ADMIN;
+
+        if (accessLevel != AccessLevel.ADMIN) {
+            teacherView.getAddForm().setDisable(true);
+            teacherView.getAddForm().setVisible(false);
+        }
     }
 
     // Set button functionality
@@ -105,11 +123,17 @@ public class TeacherController {
         teacherView.getDeleteSelectedButton().setOnMouseClicked(event -> {
             ObservableList<Teacher> selectedTeachers = teacherView.getTeacherTable().getSelectionModel().getSelectedItems();
 
-            try {
-                teacherDAO.deleteList(selectedTeachers);
-                refreshTeacherTable();
-            } catch(Exception e) {
-                AlertUtil.showDatabaseConnectionError("Error deleting teacher(s). No database connection.");
+            String alertTitleHeader = "Confirm deletion";
+            String plural = selectedTeachers.size() == 1 ? "" : "s";
+            String alertContent = "Are you sure you want to delete " + selectedTeachers.size() + " teacher" + plural + "?";
+
+            if (AlertUtil.confirmationAlert(alertTitleHeader, alertTitleHeader, alertContent)) {
+                try {
+                    teacherDAO.deleteList(selectedTeachers);
+                    refreshTeacherTable();
+                } catch(Exception e) {
+                    AlertUtil.showDatabaseConnectionError("Error deleting teacher(s). No database connection.");
+                }
             }
         });
 
