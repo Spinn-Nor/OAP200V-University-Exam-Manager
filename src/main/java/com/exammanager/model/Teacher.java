@@ -6,8 +6,8 @@ import javafx.collections.ObservableList;
 /**
  * Represents a teacher in the Exam Manager application.
  * <p>
- * This class is a plain data holder (POJO) containing basic information
- * about a teacher, including:
+ * This class extends the {@link Person} class. This class is a plain data holder (POJO)
+ * containing basic information about a teacher, including:
  * <ul>
  *     <li>ID</li>
  *     <li>First name</li>
@@ -16,7 +16,7 @@ import javafx.collections.ObservableList;
  *     <li>Email address</li>
  * </ul>
  * <p>
- * It provides getters and setters for all fields so the data can be
+ * It provides, or inherits, getters and setters for all fields so the data can be
  * accessed and modified as necessary by the application.
  * <p>
  * The teacher class has two constructors: one with ID for handling database returns, and
@@ -24,28 +24,19 @@ import javafx.collections.ObservableList;
  *
  * @author Bendik
  */
-public class Teacher {
-    private int id;
-    private String firstName;
-    private String lastName;
+public final class Teacher extends Person {
     private String department;
-    private String email;
 
     // Constructor with all fields
     public Teacher(int id, String firstName, String lastName, String department, String email) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        super(id, firstName, lastName, email);
         this.department = department;
-        this.email = email;
     }
 
     // Constructor without ID
     public Teacher(String firstName, String lastName, String department, String email) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+        super(firstName, lastName, email);
         this.department = department;
-        this.email = email;
     }
 
     // Generate ObservableList of example teachers
@@ -64,44 +55,12 @@ public class Teacher {
     }
 
     // Getters and setters
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public String getDepartment() {
         return department;
     }
 
     public void setDepartment(String department) {
         this.department = department;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
 }

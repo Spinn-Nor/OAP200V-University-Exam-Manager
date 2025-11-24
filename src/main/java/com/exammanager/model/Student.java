@@ -6,8 +6,8 @@ import javafx.collections.ObservableList;
 /**
  * Represents a student in the Exam Manager application.
  * <p>
- * This class is a plain data holder (POJO) containing basic information
- * about a student, including:
+ * This class extends the {@link Person} class. This class is a plain data holder (POJO)
+ * containing basic information about a student, including:
  * <ul>
  *     <li>ID</li>
  *     <li>First name</li>
@@ -16,7 +16,7 @@ import javafx.collections.ObservableList;
  *     <li>Enrollment year</li>
  * </ul>
  * <p>
- * It provides getters and setters for all fields so the data can be
+ * It provides,or inherits, getters and setters for all fields so the data can be
  * accessed and modified as necessary by the application.
  * <p>
  * The student class has two constructors: one with ID for handling database returns, and
@@ -24,27 +24,18 @@ import javafx.collections.ObservableList;
  *
  * @author Victoria
  */
-public class Student {
-    private int id;
-    private String firstName;
-    private String lastName;
-    private String email;
+public final class Student extends Person {
     private int enrollmentYear;
 
     //Victoria
     public Student(int id, String firstName, String lastName, String email, int enrollmentYear) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email =email;
+        super(id, firstName, lastName, email);
         this.enrollmentYear = enrollmentYear;
     }
 
     //Victoria
     public Student(String firstName, String lastName, String email, int enrollmentYear) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
+        super(firstName, lastName, email);
         this.enrollmentYear = enrollmentYear;
     }
 
@@ -66,44 +57,12 @@ public class Student {
     //Getters (Reach data and sees what is inside. It looks inside the box.)
 
     //Victoria
-    public int getId() {
-        return id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
     public int getEnrollmentYear() {
         return enrollmentYear;
     }
 
     //Victoria
     //Setters (Change data. Put something in the box.)
-    public void setID(int id) {
-        this.id = id;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public void setEnrollmentYear(int enrollmentYear) {
         this.enrollmentYear = enrollmentYear;
     }
