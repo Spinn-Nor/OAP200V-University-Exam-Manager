@@ -5,27 +5,27 @@ import javafx.collections.ObservableList;
 
 //Victoria
 public class Course {
-    private int course_id;
-    private String course_code;
+    private int id;
+    private String courseCode;
     private String title;
     private int credits;
-    private int teacher_id;
+    private int teacherId;
 
     //Victoria
-    public Course(int course_id, String course_code, String title, int credits, int teacher_id) {
-        this.course_id = course_id;
-        this.course_code = course_code;
+    public Course(int id, String courseCode, String title, int credits, int teacherId) {
+        this.id = id;
+        this.courseCode = courseCode;
         this.title = title;
         this.credits = credits;
-        this.teacher_id = teacher_id;
+        this.teacherId = teacherId;
     }
 
     //Victoria
-    public Course(String course_code, String title, int credits, int teacher_id) {
-        this.course_code = course_code;
+    public Course(String courseCode, String title, int credits, int teacherId) {
+        this.courseCode = courseCode;
         this.title = title;
         this.credits = credits;
-        this.teacher_id = teacher_id;
+        this.teacherId = teacherId;
     }
 
     //Generate examples of Courses
@@ -46,12 +46,12 @@ public class Course {
     //Getters (Reach data and sees what is inside. It looks inside the box.)
 
     //Victoria
-    public int getCourse_id() {
-        return course_id;
+    public int getId() {
+        return id;
     }
 
-    public String getCourse_code() {
-        return course_code;
+    public String getCourseCode() {
+        return courseCode;
     }
 
     public String getTitle() {
@@ -62,18 +62,18 @@ public class Course {
         return credits;
     }
 
-    public int getTeacher_id() {
-        return teacher_id;
+    public int getTeacherId() {
+        return teacherId;
     }
 
     //Victoria
     //Setters (Change data. Put something in the box.)
-    public void setCourse_id(int course_id) {
-        this.course_id = course_id;
+    public void setId(int courseId) {
+        this.id = id;
     }
 
-    public void setCourse_code(String course_code) {
-        this.course_code = course_code;
+    public void setCourse_code(String courseCode) {
+        this.courseCode = courseCode;
     }
 
     public void setTitle(String title) {
@@ -84,8 +84,8 @@ public class Course {
         this.credits = credits;
     }
 
-    public void setTeacher_id(int teacher_id) {
-        this.teacher_id = teacher_id;
+    public void setTeacherId(int teacherId) {
+        this.teacherId = teacherId;
     }
 
 }
