@@ -1,6 +1,7 @@
 package com.exammanager.view;
 
 import com.exammanager.controller.AppController;
+import com.exammanager.login.AccessLevel;
 import javafx.application.Platform;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -27,7 +28,8 @@ public class MainView extends VBox {
     private final ExamView examView = new ExamView();
     private final DepartmentView departmentView = new DepartmentView();
 
-    public MainView() {
+    public MainView(AccessLevel accessLevel) {
+
         // Creates the individual tabs
         Tab teachersTab = new Tab("Teachers", teacherView);
 
@@ -37,18 +39,21 @@ public class MainView extends VBox {
 
         Tab departmentTab = new Tab("Departments", departmentView);
 
-        // Adds tabs to tabPane
-        tabPane.getTabs().addAll(teachersTab, studentsTab, examsTab);
-
-        // TODO! ADD CONDITION
-        tabPane.getTabs().add(departmentTab);
+        // Adds tabs to tabPane based on access level
+        if (accessLevel == AccessLevel.ADMIN) {
+            tabPane.getTabs().addAll(teachersTab, studentsTab, examsTab, departmentTab);
+        } else if (accessLevel == AccessLevel.TEACHER) {
+            tabPane.getTabs().addAll(studentsTab, examsTab);
+        } else {
+            tabPane.getTabs().addAll(examsTab);
+        }
 
         // Prevents closing tabs in the TabPane
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
         getChildren().addAll(tabPane);
 
-        Platform.runLater(() -> new AppController(this).start());
+        Platform.runLater(() -> new AppController(this, accessLevel).start());
     }
 
     public TeacherView getTeacherView() {
