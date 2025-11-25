@@ -1,7 +1,6 @@
 package com.exammanager.view;
 
 import com.exammanager.model.Student;
-import com.exammanager.model.Teacher;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
@@ -179,7 +178,7 @@ public class StudentView extends VBox {
 
         searchField = new TextField();
         searchField.setPrefWidth(620);
-        searchField.setPromptText("Search for first name, last name or email");
+        searchField.setPromptText("Search for first name, last name, email or enrollment year");
 
         clearSearchButton = new Button("Clear search");
 
