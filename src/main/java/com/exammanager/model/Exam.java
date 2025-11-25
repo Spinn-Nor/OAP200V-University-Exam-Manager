@@ -1,18 +1,16 @@
 package com.exammanager.model;
 
+import java.time.LocalDate;
 
-    public class Exam {
+public class Exam {
         private int id;
         private int studentId;
         private int courseId;
-        private String examDate;
+        // FIXME! Change to Date type
+        private LocalDate examDate;
         private String grade;
 
-        //empty constructor for database
-        public Exam(){
-        }
-
-        public Exam(int id, int studentId, int courseId, String examDate, String grade) {
+        public Exam(int id, int studentId, int courseId, LocalDate examDate, String grade) {
             this.id = id;
             this.studentId = studentId;
             this.courseId = courseId;
@@ -20,7 +18,7 @@ package com.exammanager.model;
             this.grade = grade;
         }
 
-        public Exam(int StudentId, int courseId, String examDate, String grade) {
+        public Exam(int StudentId, int courseId, LocalDate examDate, String grade) {
             this.studentId = studentId;
             this.courseId = courseId;
             this.examDate = examDate;
@@ -54,11 +52,11 @@ package com.exammanager.model;
             this.courseId = courseId;
         }
 
-        public String getExamDate() {
+        public LocalDate getExamDate() {
             return examDate;
         }
 
-        public void setExamDate(String examDate) {
+        public void setExamDate(LocalDate examDate) {
             this.examDate = examDate;
         }
 

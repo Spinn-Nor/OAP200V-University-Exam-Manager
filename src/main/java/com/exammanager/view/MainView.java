@@ -25,6 +25,7 @@ public class MainView extends VBox {
 
     private final TeacherView teacherView = new TeacherView();
     private final StudentView studentView = new StudentView();
+    private final CourseView courseView = new CourseView();
     private final ExamView examView = new ExamView();
     private final DepartmentView departmentView = new DepartmentView();
 
@@ -35,13 +36,15 @@ public class MainView extends VBox {
 
         Tab studentsTab = new Tab("Students", studentView);
 
+        Tab courseTab = new Tab("Courses", courseView);
+
         Tab examsTab = new Tab("Exams", examView);
 
         Tab departmentTab = new Tab("Departments", departmentView);
 
         // Adds tabs to tabPane based on access level
         if (accessLevel == AccessLevel.ADMIN) {
-            tabPane.getTabs().addAll(teachersTab, studentsTab, examsTab, departmentTab);
+            tabPane.getTabs().addAll(teachersTab, studentsTab, courseTab, examsTab, departmentTab);
         } else if (accessLevel == AccessLevel.TEACHER) {
             tabPane.getTabs().addAll(studentsTab, examsTab);
         } else {
@@ -64,8 +67,8 @@ public class MainView extends VBox {
         return studentView;
     }
 
-    public TabPane getTabPane() {
-        return tabPane;
+    public CourseView getCourseView() {
+        return courseView;
     }
 
     public DepartmentView getDepartmentView() {

@@ -1,5 +1,6 @@
 package com.exammanager.view;
 
+import com.exammanager.model.Department;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -36,11 +37,13 @@ public class TeacherView extends VBox {
     private Button refreshButton;
     private TextField firstNameField;
     private TextField lastNameField;
+    private ComboBox<Department> departmentComboBox;
     private TextField emailField;
     private Button editSelectedButton;
     private Button deleteSelectedButton;
     private Button addButton;
 
+    private VBox controlBox;
     private GridPane addForm;
 
     // TODO! LOCAL VARIABLES IN CONSTRUCTOR -> CLASS PROPERTIES
@@ -142,10 +145,10 @@ public class TeacherView extends VBox {
         lastNameField = new TextField();
         addForm.add(lastNameField, 1, 1);
 
-        // FIXME! DEPARTMENT SHOULD USE A DROPDOWN BOX
         addForm.add(new Label("Department:"), 0, 2);
-        TextField depField = new TextField();
-        addForm.add(depField, 1, 2);
+        departmentComboBox = new ComboBox<>();
+        departmentComboBox.setPrefWidth(149);
+        addForm.add(departmentComboBox, 1, 2);
 
         addForm.add(new Label("Email:"), 0, 3);
         emailField = new TextField();
@@ -160,9 +163,10 @@ public class TeacherView extends VBox {
         Region controlSpacer = new Region();
         VBox.setVgrow(controlSpacer, Priority.ALWAYS);
 
-        VBox controlBox = new VBox();
+        controlBox = new VBox();
         controlBox.setSpacing(10);
         controlBox.getChildren().addAll(editSelectedButton, deleteSelectedButton, controlSpacer, addForm);
+        controlBox.setVisible(false);
 
         mainContainer.setSpacing(10);
         mainContainer.getChildren().addAll(teacherTable, tableSeparator, controlBox);
@@ -170,7 +174,7 @@ public class TeacherView extends VBox {
         // Table search bar
         // TODO! fix searchbar width
         HBox searchBox = new HBox();
-        searchBox.setPrefWidth(800);
+        searchBox.setMaxWidth(800);
         searchBox.setAlignment(Pos.CENTER_LEFT);
         searchBox.setSpacing(10);
 
@@ -178,7 +182,7 @@ public class TeacherView extends VBox {
 
         searchField = new TextField();
         searchField.setPrefWidth(620);
-        searchField.setPromptText("Search for first name, last name, department or email");
+        searchField.setPromptText("Search for ID, first name, last name, department or email");
 
         clearSearchButton = new Button("Clear search");
 
@@ -213,6 +217,10 @@ public class TeacherView extends VBox {
         return lastNameField;
     }
 
+    public ComboBox<Department> getDepartmentComboBox() {
+        return departmentComboBox;
+    }
+
     public TextField getEmailField() {
         return emailField;
     }
@@ -227,6 +235,10 @@ public class TeacherView extends VBox {
 
     public Button getAddButton() {
         return addButton;
+    }
+
+    public VBox getControlBox() {
+        return controlBox;
     }
 
     public GridPane getAddForm() {

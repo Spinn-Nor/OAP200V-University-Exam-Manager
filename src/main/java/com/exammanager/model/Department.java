@@ -54,4 +54,8 @@ public class Department {
         return departments;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
 }

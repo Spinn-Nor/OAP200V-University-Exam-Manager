@@ -88,5 +88,10 @@ public class Course {
         this.teacherId = teacherId;
     }
 
+    @Override
+    public String toString() {
+        return id + " - " + title;
+    }
+
 }
 

@@ -2,6 +2,7 @@ package com.exammanager.controller;
 
 import com.exammanager.dao.StudentDAO;
 import com.exammanager.dialog.StudentDialog;
+import com.exammanager.login.AccessLevel;
 import com.exammanager.model.Student;
 import com.exammanager.util.AlertUtil;
 import com.exammanager.view.StudentView;
@@ -32,11 +33,14 @@ public class StudentController {
     private FilteredList<Student> filteredStudentList = new FilteredList<>(studentList, p -> true);
 
     // DAO used for database operations on students
-    private final StudentDAO studentDAO ;
+    private final StudentDAO studentDAO;
 
-    public StudentController(StudentView view, StudentDAO studentDAO) {
+    private final AccessLevel accessLevel;
+
+    public StudentController(StudentView view, StudentDAO studentDAO, AccessLevel accessLevel) {
         this.studentView = view;
         this.studentDAO = studentDAO;
+        this.accessLevel = accessLevel;
 
         initialize();
     }
@@ -59,14 +63,27 @@ public class StudentController {
             String searchQuery = (newValue == null || newValue.isEmpty()) ? "" : newValue.trim().toLowerCase();
             filteredStudentList.setPredicate(student ->
                     searchQuery.isEmpty() ||
+                    Integer.toString(student.getId()).contains(searchQuery) ||
                     student.getFirstName().toLowerCase().contains(searchQuery) ||
                     student.getLastName().toLowerCase().contains(searchQuery) ||
-                    student.getEmail().toLowerCase().contains(searchQuery));
+                    student.getEmail().toLowerCase().contains(searchQuery) ||
+                    Integer.toString(student.getEnrollmentYear()).contains(searchQuery));
         });
 
+        setUiElementAvailability();
         initButtonFunctionality();
         addTextFieldListeners();
         addTableListener();
+    }
+
+    // Bendik
+    // Set UI element visibility based on access the access level of the currently logged-in user
+    private void setUiElementAvailability() {
+        // accessLevel = AccessLevel.STUDENT;
+
+        if (accessLevel == AccessLevel.ADMIN) {
+            studentView.getControlBox().setVisible(true);
+        }
     }
 
     // Bendik

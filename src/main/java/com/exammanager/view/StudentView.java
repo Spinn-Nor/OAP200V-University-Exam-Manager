@@ -41,6 +41,7 @@ public class StudentView extends VBox {
     private Button editSelectedButton;
     private Button deleteSelectedButton;
     private Button addButton;
+    private VBox controlBox;
 
     //Victoria
     // TODO! LOCAL VARIABLES IN CONSTRUCTOR -> CLASS PROPERTIES
@@ -128,7 +129,7 @@ public class StudentView extends VBox {
         deleteSelectedButton.setDisable(true);
 
         // Separator line between edit/delete buttons and add form
-//        Separator controlSeparator = new Separator(Orientation.HORIZONTAL);
+        // Separator controlSeparator = new Separator(Orientation.HORIZONTAL);
 
         //Victoria
         // Creates a form for adding new students
@@ -161,9 +162,10 @@ public class StudentView extends VBox {
         Region controlSpacer = new Region();
         VBox.setVgrow(controlSpacer, Priority.ALWAYS);
 
-        VBox controlBox = new VBox();
+        controlBox = new VBox();
         controlBox.setSpacing(10);
         controlBox.getChildren().addAll(editSelectedButton, deleteSelectedButton, controlSpacer, addForm);
+        controlBox.setVisible(false);
 
         mainContainer.setSpacing(10);
         mainContainer.getChildren().addAll(studentTable, tableSeparator, controlBox);
@@ -178,7 +180,7 @@ public class StudentView extends VBox {
 
         searchField = new TextField();
         searchField.setPrefWidth(620);
-        searchField.setPromptText("Search for first name, last name, email or enrollment year");
+        searchField.setPromptText("Search for ID, first name, last name, email or enrollment year");
 
         clearSearchButton = new Button("Clear search");
 
@@ -247,6 +249,10 @@ public class StudentView extends VBox {
 
     public Button getAddButton() {
         return addButton;
+    }
+
+    public VBox getControlBox() {
+        return controlBox;
     }
 }
 

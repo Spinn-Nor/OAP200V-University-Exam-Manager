@@ -1,6 +1,8 @@
 package com.exammanager.view;
 
+import com.exammanager.model.Course;
 import com.exammanager.model.Exam;
+import com.exammanager.model.Student;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -9,9 +11,7 @@ import javafx.scene.layout.*;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-import com.exammanager.model.Teacher;
-import javafx.stage.Modality;
-import javafx.stage.StageStyle;
+import java.time.LocalDate;
 
 /**
  * Can sort multiple columns at once by holding shift
@@ -19,13 +19,17 @@ import javafx.stage.StageStyle;
 public class ExamView extends VBox {
 
     private TableView<Exam> examTable;
-    private TextField studentIdField;
-    private TextField courseIdField;
-    private TextField examDateField;
-    private TextField gradeField;
+    private TextField searchField;
+    private Button clearSearchButton;
+    private Button refreshButton;
+    private ComboBox<Student> studentIdComboBox;
+    private ComboBox<Course> courseIdComboBox;
+    private DatePicker examDatePicker;
+    private ComboBox<String> gradeComboBox;
     private Button editSelectedButton;
     private Button deleteSelectedButton;
     private Button addButton;
+    private VBox controlBox;
 
     // TODO! LOCAL VARIABLES IN CONSTRUCTOR -> CLASS PROPERTIES
     public ExamView() {
@@ -37,10 +41,7 @@ public class ExamView extends VBox {
         title.setStyle("-fx-font-size: 24px; -fx-font-weight: bold");
 
         // Creates a refresh button
-        Button refreshButton = new Button("Refresh");
-
-        // TODO! REMOVE AFTER TESTING
-        refreshButton.setOnAction(event -> {showTestDialog();});
+        refreshButton = new Button("Refresh");
 
         // Creates growable empty space to push the refresh button to the right
         Region topBarSpacer = new Region();
@@ -69,7 +70,7 @@ public class ExamView extends VBox {
         examTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         // Defines examTable columns
-        TableColumn<Exam, Integer> idCol = new TableColumn<>("Student Id");
+        TableColumn<Exam, Integer> idCol = new TableColumn<>("Exam Id");
         idCol.setPrefWidth(50);
         idCol.setCellValueFactory(
                 data -> new SimpleIntegerProperty(data.getValue().getId()).asObject()
@@ -90,7 +91,7 @@ public class ExamView extends VBox {
         TableColumn<Exam, String> examDateCol = new TableColumn<>("Exam Date");
         examDateCol.setPrefWidth(150);
         examDateCol.setCellValueFactory(
-                data -> new SimpleStringProperty(data.getValue().getExamDate())
+                data -> new SimpleStringProperty(data.getValue().getExamDate().toString())
         );
 
         TableColumn<Exam, String> gradeCol = new TableColumn<>("Grade");
@@ -114,15 +115,6 @@ public class ExamView extends VBox {
         deleteSelectedButton = new Button("Delete");
         deleteSelectedButton.setDisable(true);
 
-        // TODO! DELETE AFTER TESTING
-        editSelectedButton.setOnAction(event -> {
-            var selected = examTable.getSelectionModel().getSelectedItem();
-            System.out.println(selected.getStudentId());
-            System.out.println(selected.getCourseId());
-            System.out.println(selected.getExamDate());
-            System.out.println(selected.getGrade());
-        });
-
         // Separator line between edit/delete buttons and add form
         // Separator controlSeparator = new Separator(Orientation.HORIZONTAL);
 
@@ -132,21 +124,27 @@ public class ExamView extends VBox {
         addForm.setVgap(10);
 
         addForm.add(new Label("Student Id:"), 0, 0);
-        // TODO! DROPDOWN LIST OF IDS?
-        studentIdField = new TextField();
-        addForm.add(studentIdField, 1, 0);
+        studentIdComboBox = new ComboBox<>();
+        studentIdComboBox.setPrefWidth(220);
+        addForm.add(studentIdComboBox, 1, 0);
 
         addForm.add(new Label("Course Id:"), 0, 1);
-        courseIdField = new TextField();
-        addForm.add(courseIdField, 1, 1);
+        courseIdComboBox = new ComboBox<>();
+        courseIdComboBox.setPrefWidth(220);
+        addForm.add(courseIdComboBox, 1, 1);
 
         addForm.add(new Label("Exam Date:"), 0, 2);
-        examDateField = new TextField();
-        addForm.add(examDateField, 1, 2);
+        examDatePicker = new DatePicker();
+        examDatePicker.setPrefWidth(220);
+        examDatePicker.setShowWeekNumbers(true);
+        examDatePicker.setValue(LocalDate.now());
+        addForm.add(examDatePicker, 1, 2);
 
         addForm.add(new Label("Grade:"), 0, 3);
-        TextField gradeField = new TextField();
-        addForm.add(gradeField, 1, 3);
+        gradeComboBox = new ComboBox<>();
+        gradeComboBox.getItems().addAll("A",  "B", "C", "D", "E", "F");
+        gradeComboBox.setValue("C");
+        addForm.add(gradeComboBox, 1, 3);
 
         addButton = new Button("Add");
         addButton.setDisable(true);
@@ -157,63 +155,52 @@ public class ExamView extends VBox {
         Region controlSpacer = new Region();
         VBox.setVgrow(controlSpacer, Priority.ALWAYS);
 
-        VBox controlBox = new VBox();
+        controlBox = new VBox();
         controlBox.setSpacing(10);
         controlBox.getChildren().addAll(editSelectedButton, deleteSelectedButton, controlSpacer, addForm);
+        controlBox.setVisible(true);
 
         mainContainer.setSpacing(10);
         mainContainer.getChildren().addAll(examTable, tableSeparator, controlBox);
 
         // Table search bar
-        int searchBoxSpacing = 10;
         HBox searchBox = new HBox();
         searchBox.setPrefWidth(800);
-        Label searchLabel = new Label("Search:");
-        TextField searchText = new TextField();
-        searchText.setPrefWidth(720);
         searchBox.setAlignment(Pos.CENTER_LEFT);
-        searchBox.setSpacing(searchBoxSpacing);
-        // TODO! fix searchbar width
-        searchBox.setPrefWidth(examTable.getWidth() - searchBoxSpacing - searchLabel.getWidth());
-        searchBox.getChildren().addAll(searchLabel, searchText);
+        searchBox.setSpacing(10);
+
+        Label searchLabel = new Label("Search:");
+
+        searchField = new TextField();
+        searchField.setPrefWidth(620);
+        searchField.setPromptText("Search for exam ID, course ID or student ID");
+
+        clearSearchButton = new Button("Clear search");
+
+        searchBox.setPrefWidth(examTable.getWidth());
+        searchBox.getChildren().addAll(searchLabel, searchField, clearSearchButton);
 
         getChildren().addAll(topBar, topbarSeparator, searchBox, mainContainer);
-    }
-
-    public static void showTestDialog() {
-        Dialog dialog = new Dialog();
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        // dialog.initStyle(StageStyle.UNDECORATED);
-        dialog.setHeight(300);
-        dialog.setWidth(400);
-        dialog.setTitle("Test Dialog");
-        dialog.setHeaderText("This is a test dialog");
-        dialog.resizableProperty().setValue(false);
-
-        ButtonType closeButton = new ButtonType("Close");
-        dialog.getDialogPane().getButtonTypes().addAll(closeButton, ButtonType.CANCEL);
-
-        dialog.showAndWait();
     }
 
     public TableView<Exam> getExamTable() {
         return examTable;
     }
 
-    public TextField getStudentIdField() {
-        return studentIdField;
+    public ComboBox<Student> getStudentIdComboBox() {
+        return studentIdComboBox;
     }
 
-    public TextField getCourseIdField() {
-        return courseIdField;
+    public ComboBox<Course> getCourseIdComboBox() {
+        return courseIdComboBox;
     }
 
-    public TextField getExamDateField() {
-        return examDateField;
+    public DatePicker getExamDatePicker() {
+        return examDatePicker;
     }
 
-    public TextField getGradeField() {
-        return gradeField;
+    public ComboBox<String> getGradeComboBox() {
+        return gradeComboBox;
     }
 
     public Button getEditSelectedButton() {
@@ -227,4 +214,21 @@ public class ExamView extends VBox {
     public Button getAddButton() {
         return addButton;
     }
+
+    public VBox getControlBox() {
+        return controlBox;
+    }
+
+    public TextField getSearchField() {
+        return searchField;
+    }
+
+    public Button getClearSearchButton() {
+        return clearSearchButton;
+    }
+
+    public Button getRefreshButton() {
+        return refreshButton;
+    }
+
 }

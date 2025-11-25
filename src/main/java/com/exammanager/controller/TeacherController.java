@@ -1,7 +1,11 @@
 package com.exammanager.controller;
 
+import com.exammanager.dao.DepartmentDAO;
 import com.exammanager.dao.TeacherDAO;
 import com.exammanager.login.AccessLevel;
+import com.exammanager.model.Course;
+import com.exammanager.model.Department;
+import com.exammanager.model.Student;
 import com.exammanager.util.AlertUtil;
 import com.exammanager.dialog.TeacherDialog;
 import javafx.beans.value.ChangeListener;
@@ -28,21 +32,26 @@ public class TeacherController {
     private final TeacherView teacherView;
 
     // List of teachers from the database
-    private ObservableList<Teacher> teacherList = FXCollections.observableArrayList();;
+    private ObservableList<Teacher> teacherList = FXCollections.observableArrayList();
+
+    // List of departments from the database
+    private ObservableList<Department> departmentList = FXCollections.observableArrayList();
 
     // FilteredList wrapper for the teacherList, used to sort teachers
     private FilteredList<Teacher> filteredTeacherList = new FilteredList<>(teacherList, p -> true);
 
-    // DAO used for database operations on teachers
+    // DAOs used for database operations
     private final TeacherDAO teacherDAO;
+    private final DepartmentDAO departmentDAO;
 
     // Access level of the currently logged-in user
-    // TODO! ADD TO CONSTRUCTOR
     private AccessLevel accessLevel;
 
-    public TeacherController(TeacherView view, TeacherDAO teacherDAO) {
+    public TeacherController(TeacherView view, TeacherDAO teacherDAO, DepartmentDAO departmentDAO, AccessLevel accessLevel) {
         this.teacherView = view;
         this.teacherDAO = teacherDAO;
+        this.departmentDAO = departmentDAO;
+        this.accessLevel = accessLevel;
 
         initialize();
     }
@@ -64,6 +73,7 @@ public class TeacherController {
             String searchQuery = (newValue == null || newValue.isEmpty()) ? "" : newValue.trim().toLowerCase();
             filteredTeacherList.setPredicate(teacher ->
                     searchQuery.isEmpty() ||
+                    Integer.toString(teacher.getId()).contains(searchQuery) ||
                     teacher.getFirstName().toLowerCase().contains(searchQuery) ||
                     teacher.getLastName().toLowerCase().contains(searchQuery) ||
                     teacher.getDepartment().toLowerCase().contains(searchQuery) ||
@@ -71,6 +81,7 @@ public class TeacherController {
             );
         });
 
+        updateComboBoxSelection();
         setUiElementAvailability();
         initButtonFunctionality();
         addTextFieldListeners();
@@ -78,13 +89,11 @@ public class TeacherController {
     }
 
     // Set UI element visibility based on access the access level of the currently logged-in user
-    // FIXME! Maybe set to invisible by default?
-    private void setUiElementAvailability(/*AccessLevel accessLevel*/) {
-        var accessLevel = AccessLevel.ADMIN;
+    private void setUiElementAvailability() {
+        // accessLevel = AccessLevel.STUDENT;
 
-        if (accessLevel != AccessLevel.ADMIN) {
-            teacherView.getAddForm().setDisable(true);
-            teacherView.getAddForm().setVisible(false);
+        if (accessLevel == AccessLevel.ADMIN) {
+            teacherView.getControlBox().setVisible(true);
         }
     }
 
@@ -191,8 +200,23 @@ public class TeacherController {
     private void refreshTeacherTable() {
         try {
             teacherList.setAll(teacherDAO.findAll());
-        } catch(Exception e) {
+            updateComboBoxSelection();
+        } catch (Exception e) {
             AlertUtil.showDatabaseConnectionError("Error while trying to refresh. No database connection.");
+        }
+    }
+
+    private void updateComboBoxSelection() {
+        try {
+            teacherView.getDepartmentComboBox().getSelectionModel().clearSelection();
+            departmentList.setAll(departmentDAO.findAll());
+        } catch (Exception e) {
+            // FIXME!
+            departmentList.setAll(Department.generateExampleDepartments());
+        }
+
+        for (Department department : departmentList) {
+            teacherView.getDepartmentComboBox().getItems().add(department);
         }
     }
 

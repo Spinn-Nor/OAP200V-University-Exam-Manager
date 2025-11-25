@@ -1,8 +1,7 @@
 package com.exammanager.controller;
 
-import com.exammanager.dao.DepartmentDAO;
-import com.exammanager.dao.StudentDAO;
-import com.exammanager.dao.TeacherDAO;
+import com.exammanager.dao.*;
+import com.exammanager.login.AccessLevel;
 import com.exammanager.util.DatabaseConnection;
 import com.exammanager.view.MainView;
 import com.exammanager.controller.TeacherController;
@@ -16,7 +15,11 @@ public class AppController {
 
     private TeacherDAO teacherDao;
     private StudentDAO studentDao;
+    private CourseDAO courseDao;
+    private ExamDAO examDao;
     private DepartmentDAO departmentDao;
+
+    private AccessLevel accessLevel;
 
     /**
      * Controller for the application itself.
@@ -28,8 +31,9 @@ public class AppController {
      *
      * @param mainView the application's main view
      */
-    public AppController(MainView mainView) {
+    public AppController(MainView mainView, AccessLevel accessLevel) {
         this.mainView = mainView;
+        this.accessLevel = accessLevel;
     }
 
     public void start() {
@@ -40,12 +44,15 @@ public class AppController {
         if (conn != null) {
             teacherDao = new TeacherDAO(conn);
             studentDao = new StudentDAO(conn);
+            courseDao = new CourseDAO(conn);
+            examDao = new ExamDAO(conn);
             departmentDao = new DepartmentDAO(conn);
         }
 
         // initialize controllers for each view
-        new TeacherController(mainView.getTeacherView(), teacherDao);
-        new StudentController(mainView.getStudentView(), studentDao);
+        new TeacherController(mainView.getTeacherView(), teacherDao, departmentDao, accessLevel);
+        new StudentController(mainView.getStudentView(), studentDao, accessLevel);
+        new ExamController(mainView.getExamView(), examDao, studentDao, courseDao, accessLevel);
         new DepartmentController(mainView.getDepartmentView(), departmentDao);
     }
 }

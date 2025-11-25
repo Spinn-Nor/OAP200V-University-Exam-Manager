@@ -71,13 +71,13 @@ public class CourseView extends VBox {
         TableColumn<Course, Integer> course_idCol = new TableColumn<>("CourseID");
         course_idCol.setPrefWidth(50);
         course_idCol.setCellValueFactory(
-                data -> new SimpleIntegerProperty(data.getValue().getCourse_id()).asObject()
+                data -> new SimpleIntegerProperty(data.getValue().getId()).asObject()
         );
 
         TableColumn<Course, String> course_codeCol = new TableColumn<>("Course Code");
         course_codeCol.setPrefWidth(150);
         course_codeCol.setCellValueFactory(
-                data ->  new SimpleStringProperty(data.getValue().getCourse_code())
+                data ->  new SimpleStringProperty(data.getValue().getCourseCode())
         );
 
         TableColumn<Course, String> titleCol = new TableColumn<>("Title");
@@ -95,7 +95,7 @@ public class CourseView extends VBox {
         TableColumn<Course, Integer> teacher_idCol = new TableColumn<>("TeacherID");
         teacher_idCol.setPrefWidth(200);
         teacher_idCol.setCellValueFactory(
-                data -> new SimpleIntegerProperty(data.getValue().getTeacher_id()).asObject()
+                data -> new SimpleIntegerProperty(data.getValue().getTeacherId()).asObject()
         );
 
         //Victoria
@@ -135,7 +135,7 @@ public class CourseView extends VBox {
         creditsField = new TextField();
         addForm.add(creditsField, 1, 2);
 
-        addForm.add(new Label("TeacherID:"), 0, 3);
+        addForm.add(new Label("Teacher:"), 0, 3);
         teacher_idField = new TextField();
         addForm.add(teacher_idField, 1, 3);
 

@@ -67,4 +67,9 @@ public final class Student extends Person {
         this.enrollmentYear = enrollmentYear;
     }
 
+    @Override
+    public String toString() {
+        return Integer.toString(getId()) + " - " + getFirstName() + " " + getLastName();
+    }
+
 }
