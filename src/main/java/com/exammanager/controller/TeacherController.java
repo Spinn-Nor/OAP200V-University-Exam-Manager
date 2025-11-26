@@ -206,9 +206,11 @@ public class TeacherController {
         }
     }
 
+    // Update ComboBoxes with items from the database
     private void updateComboBoxSelection() {
         try {
             teacherView.getDepartmentComboBox().getSelectionModel().clearSelection();
+            teacherView.getDepartmentComboBox().getItems().clear();
             departmentList.setAll(departmentDAO.findAll());
         } catch (Exception e) {
             // FIXME!

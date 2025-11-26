@@ -59,7 +59,7 @@ public class App extends Application {
         // Hide stage before switching scene to avoid window flickering
         stage.hide();
 
-        // Setup MainView with all associated after logging in, set and show scene centered in screen
+        // Setup MainView with all associated views after logging in, set and show scene centered on screen
         mainView = new MainView(accessLevel);
         Scene mainScene = new Scene(mainView, 1280, 720);
         stage.setScene(mainScene);

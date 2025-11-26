@@ -194,10 +194,14 @@ public class ExamController {
         }
     }
 
+    // Update ComboBoxes with items from the database
     private void updateComboBoxSelection() {
         try {
             examView.getStudentIdComboBox().getSelectionModel().clearSelection();
             examView.getCourseIdComboBox().getSelectionModel().clearSelection();
+
+            examView.getStudentIdComboBox().getItems().clear();
+            examView.getCourseIdComboBox().getItems().clear();
 
             studentList.setAll(studentDAO.findAll());
             courseList.setAll(courseDAO.findAll());

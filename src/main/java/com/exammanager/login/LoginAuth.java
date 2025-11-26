@@ -38,7 +38,7 @@ public class LoginAuth {
     }
 
     private static Optional<UserDetails> validateUser(Connection conn, String email) {
-        String sql = "SELECT email, hash, salt, accessLevel FROM users WHERE email = ?";
+        String sql = "SELECT hash, salt, accessLevel FROM users WHERE email = ?";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, email);
