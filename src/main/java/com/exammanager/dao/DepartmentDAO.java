@@ -184,9 +184,21 @@ public class DepartmentDAO implements DAO<Department> {
 
         for (Department department : departments) {
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-                int id = department.getId();
-                stmt.setInt(1, id);
-                stmt.executeUpdate();
+                // Check if department has registered teachers
+                PreparedStatement departmentEmptyStmt = conn.prepareStatement("SELECT * FROM teacher WHERE department = ?");
+                departmentEmptyStmt.setString(1, department.getName());
+
+                // Delete department if no teachers are registered to it
+                // Otherwise display an error
+                if (!departmentEmptyStmt.executeQuery().isBeforeFirst()) {
+                    int id = department.getId();
+                    stmt.setInt(1, id);
+                    stmt.executeUpdate();
+                } else {
+                    AlertUtil.genericError("Error deleting department", "Cannot delete non-empty departments.\n"
+                    + department.getName() + " currently has employed teachers.");
+                }
+
             } catch (Exception e) {
                 AlertUtil.showDatabaseConnectionError("Error while deleting department(s): " + e.getMessage());
             }
