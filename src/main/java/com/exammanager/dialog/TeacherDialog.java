@@ -1,7 +1,9 @@
 package com.exammanager.dialog;
 
+import com.exammanager.model.Department;
 import com.exammanager.util.AlertUtil;
 import javafx.beans.value.ChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -26,11 +28,12 @@ public class TeacherDialog {
 
     private static TextField textFieldFirstName;
     private static TextField textFieldLastName;
+    private static ComboBox<Department> departmentComboBox;
     private static TextField textFieldEmail;
     private static ButtonType saveButton;
     private static Label emptyFieldWarning;
 
-    public static Optional<Teacher> editTeacherDialog(Teacher teacher) {
+    public static Optional<Teacher> editTeacherDialog(Teacher teacher, ObservableList<Department> departmentList) {
         Dialog<Teacher> dialog = new Dialog<>();
         dialog.initModality(Modality.APPLICATION_MODAL);
         // dialog.initStyle(StageStyle.UNDECORATED);
@@ -62,11 +65,14 @@ public class TeacherDialog {
         textFieldLastName.setPromptText("Cannot be empty");
         gridPane.add(textFieldLastName, 1, 1, 4, 1);
 
-        // TODO! CHANGE TO COMBOBOX
+        // department label & combobox
         Label departmentLabel = new Label("Department:");
         gridPane.add(departmentLabel, 0, 2, 1, 1);
-        TextField textFieldDepartment = new TextField(teacher.getDepartment());
-        gridPane.add(textFieldDepartment, 1, 2, 4, 1);
+        departmentComboBox = new ComboBox<>();
+        departmentComboBox.setPrefWidth(200);
+        departmentComboBox.setItems(departmentList);
+        departmentComboBox.promptTextProperty().setValue(teacher.getDepartment());
+        gridPane.add(departmentComboBox, 1, 2, 4, 1);
 
         // email label & text field
         Label emailLabel = new Label("Email:");
@@ -99,8 +105,9 @@ public class TeacherDialog {
                 // maps values from the text fields to variables
                 String firstName = textFieldFirstName.getText().trim();
                 String lastName = textFieldLastName.getText().trim();
-                String department = textFieldDepartment.getText().trim();
                 String email = textFieldEmail.getText().trim();
+
+                String department = departmentComboBox.getValue() == null ? teacher.getDepartment() : departmentComboBox.getValue().getName();
 
                 int teacherId = teacher.getId();
 

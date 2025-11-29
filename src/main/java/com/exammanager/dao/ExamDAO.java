@@ -59,6 +59,84 @@ public class ExamDAO implements DAO<Exam> {
     }
 
     /**
+     * Retrieves a list of all exams associated with a student from the database.
+     *
+     * @param email the email associated with the student whose exams should be retrieved
+     * @return {@link ObservableList} of {@link Exam} objects containing all exams
+     * in the database associated with a specific student if successful,
+     * otherwise an empty {@link ObservableList}
+     */
+    public ObservableList<Exam> findAllByEmail(String email) {
+        if (conn == null) {
+            AlertUtil.showDatabaseConnectionError("Failed to get exams. No database connection.");
+            return FXCollections.observableArrayList();
+        }
+
+        String sql = "SELECT e.id, e.student_id, e.course_id, e.exam_date, e.grade FROM exam AS e " +
+                     "INNER JOIN student AS s ON e.student_id == s.id " +
+                     "WHERE s.email = ?";
+
+        ObservableList<Exam> exams = FXCollections.observableArrayList();
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql) ) {
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Exam exam = new Exam(
+                        rs.getInt("id"),
+                        rs.getInt("student_id"),
+                        rs.getInt("course_id"),
+                        rs.getDate("exam_date").toLocalDate(),
+                        rs.getString("grade")
+                );
+                exams.add(exam);
+            }
+        } catch (SQLException e) {
+            AlertUtil.showDatabaseConnectionError("Error while getting exams: " + e.getMessage());
+        }
+
+        return exams;
+    }
+
+    /**
+     * Retrieves a list of all exams associated with a specific course from the database.
+     *
+     * @param courseId the ID of the course whose exams should be retrieved
+     * @return {@link ObservableList} of {@link Exam} objects containing all exams
+     * associated with a specific course student if successful,
+     * or an empty {@link ObservableList} if none are found
+     */
+    public ObservableList<Exam> findByCourseId(int courseId) {
+        if (conn == null) {
+            AlertUtil.showDatabaseConnectionError("Failed to get exams. No database connection.");
+            return FXCollections.observableArrayList();
+        }
+
+        String sql = "SELECT * FROM exam WHERE course_id = ?";
+
+        ObservableList<Exam> exams = FXCollections.observableArrayList();
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, courseId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Exam exam = new Exam(
+                        rs.getInt("id"),
+                        rs.getInt("student_id"),
+                        rs.getInt("course_id"),
+                        rs.getDate("exam_date").toLocalDate(),
+                        rs.getString("grade")
+                );
+                exams.add(exam);
+            }
+        } catch (SQLException e) {
+            AlertUtil.showDatabaseConnectionError("Error while getting exams: " + e.getMessage());
+        }
+
+        return exams;
+    }
+
+    /**
      * Retrieves a list of all exams from the database.
      *
      * @return {@link ObservableList} of {@link Exam} objects containing all exams
@@ -81,7 +159,6 @@ public class ExamDAO implements DAO<Exam> {
                         rs.getInt("id"),
                         rs.getInt("student_id"),
                         rs.getInt("course_id"),
-                        // FIXME! Change to Date type
                         rs.getDate("exam_date").toLocalDate(),
                         rs.getString("grade")
                 );

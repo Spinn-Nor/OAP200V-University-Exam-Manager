@@ -64,11 +64,18 @@ public class ExamController {
     private void initialize() {
         // Gets exams from the database
         try {
-            examList.setAll(examDAO.findAll());
+            // If logged in as a student, get all exams by the users email
+            // Otherwise, get all exams
+            if (accessLevel == AccessLevel.STUDENT) {
+                examList.setAll(examDAO.findAllByEmail(accessLevel.getEmail()));
+            } else {
+                examList.setAll(examDAO.findAll());
+            }
         } catch (Exception e) {
             // FIXME! Handle error
             Exam testExam = new Exam(1, 1, 1, LocalDate.now(), "A");
-            examList.add(testExam);
+            Exam testExam2 = new Exam(2, 1, 1, LocalDate.now(), null);
+            examList.addAll(testExam, testExam2);
         }
 
         // Adds exams to the table in ExamView using the filteredExamList to allow searching
@@ -92,7 +99,12 @@ public class ExamController {
         addTableListener();
     }
 
-    private void setUiElementAvailability() {}
+    private void setUiElementAvailability() {
+        // Show CRUD controls for exams only when logged in as a teacher
+        if (accessLevel == AccessLevel.TEACHER) {
+            examView.getControlBox().setVisible(true);
+        }
+    }
 
     private void initButtonFunctionality() {
         // Adds functionality to the clear search button in ExamView
@@ -102,7 +114,7 @@ public class ExamController {
 
         // Adds functionality to the refresh button in ExamView
         examView.getRefreshButton().setOnMouseClicked(event -> {
-            refreshExamView();
+            refresh();
         });
 
         // Adds functionality to the edit button in ExamView
@@ -116,7 +128,7 @@ public class ExamController {
 
                 try {
                     examDAO.updateSingle(resultExam);
-                    refreshExamView();
+                    refresh();
                 } catch (Exception e) {
                     AlertUtil.showDatabaseConnectionError("Error updating exam. No database connection.");
                 }
@@ -134,31 +146,32 @@ public class ExamController {
             if (AlertUtil.confirmationAlert(alertTitleHeader, alertTitleHeader, alertContent)) {
                 try {
                     examDAO.deleteList(selectedExam);
-                    refreshExamView();
+                    refresh();
                 } catch(Exception e) {
                     AlertUtil.showDatabaseConnectionError("Error deleting exam(s). No database connection.");
                 }
             }
         });
 
-        // Adds functionality to the add teacher button in TeacherView
+        // Adds functionality to the add exam button in ExamView
         examView.getAddButton().setOnMouseClicked(event -> {
+            String newExamGrade = examView.getGradeComboBox().getValue().equals("No grade") ? null : examView.getGradeComboBox().getValue();
+
             Exam examToBeAdded = new Exam(
                     examView.getStudentIdComboBox().getValue().getId(),
                     examView.getCourseIdComboBox().getValue().getId(),
                     examView.getExamDatePicker().getValue(),
-                    examView.getGradeComboBox().getValue()
+                    newExamGrade
             );
 
             try {
                 examDAO.addSingle(examToBeAdded);
                 examView.getStudentIdComboBox().getSelectionModel().clearSelection();
                 examView.getCourseIdComboBox().getSelectionModel().clearSelection();
-                refreshExamView();
+                examView.getGradeComboBox().setValue("No grade");
+                refresh();
             } catch (Exception e) {
                 AlertUtil.showDatabaseConnectionError("Error adding exam. No database connection.");
-                examView.getStudentIdComboBox().getSelectionModel().clearSelection();
-                examView.getCourseIdComboBox().getSelectionModel().clearSelection();
             }
         });
     }
@@ -185,9 +198,15 @@ public class ExamController {
         });
     }
 
-    private void refreshExamView() {
+    private void refresh() {
         try {
-            examList.setAll(examDAO.findAll());
+            // If logged in as a student, get all exams by the users email
+            // Otherwise, get all exams
+            if (accessLevel == AccessLevel.STUDENT) {
+                examList.setAll(examDAO.findAllByEmail(accessLevel.getEmail()));
+            } else {
+                examList.setAll(examDAO.findAll());
+            }
             updateComboBoxSelection();
         } catch (Exception e) {
             AlertUtil.showDatabaseConnectionError("Error while trying to refresh. No database connection.");
@@ -210,13 +229,8 @@ public class ExamController {
             courseList.setAll(Course.generateExampleCourses());
         }
 
-        for (Student student : studentList) {
-            examView.getStudentIdComboBox().getItems().add(student);
-        }
-
-        for (Course course : courseList) {
-            examView.getCourseIdComboBox().getItems().add(course);
-        }
+        examView.getStudentIdComboBox().setItems(studentList);
+        examView.getCourseIdComboBox().setItems(courseList);
     }
 
     private void addTableListener() {

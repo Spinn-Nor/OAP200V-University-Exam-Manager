@@ -25,12 +25,13 @@ public class DepartmentController {
 
     private final DepartmentDAO departmentDAO;
 
-    // TODO!
     private AccessLevel accessLevel;
 
-    public DepartmentController(DepartmentView view, DepartmentDAO departmentDAO) {
+    public DepartmentController(DepartmentView view, DepartmentDAO departmentDAO, AccessLevel accessLevel) {
         this.departmentView = view;
         this.departmentDAO = departmentDAO;
+        this.accessLevel = accessLevel;
+
         initialize();
     }
 
@@ -58,6 +59,7 @@ public class DepartmentController {
         });
 
         // Sett opp UI-interaksjoner
+        setUiElementAvailability();
         initButtonFunctionality();
         initTextFieldListener();
         initTableListener();
@@ -65,7 +67,12 @@ public class DepartmentController {
 
     // Bendik
     // TODO!
-    private void setUiElementAvailability(/*AccessLevel accessLevel*/) {}
+    private void setUiElementAvailability() {
+        // Show CRUD controls for departments only when logged in as an administrator
+        if (accessLevel == AccessLevel.ADMIN) {
+            departmentView.getControlBox().setVisible(true);
+        }
+    }
 
     private void initButtonFunctionality() {
 

@@ -3,8 +3,7 @@ package com.exammanager.view;
 import com.exammanager.controller.AppController;
 import com.exammanager.login.AccessLevel;
 import javafx.application.Platform;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
 /**
@@ -21,7 +20,6 @@ import javafx.scene.layout.VBox;
  */
 public class MainView extends VBox {
 
-    private final TabPane tabPane = new TabPane();
 
     private final TeacherView teacherView = new TeacherView();
     private final StudentView studentView = new StudentView();
@@ -29,24 +27,59 @@ public class MainView extends VBox {
     private final ExamView examView = new ExamView();
     private final DepartmentView departmentView = new DepartmentView();
 
+    // Menu bar and menus
+    private final MenuBar menuBar = new MenuBar();
+    private final Menu fileMenu = new Menu("File");
+    private final Menu reportMenu  = new Menu("Report");
+    private final Menu helpMenu = new Menu("Help");
+
+    // Menu options under File
+    private final MenuItem checkDbItem = new MenuItem("Check Database Connection");
+    private final MenuItem exportItem = new MenuItem("Export Database");
+    private final MenuItem exitItem = new MenuItem("Exit");
+
+    // Menu options under Report
+    private final MenuItem courseReportItem  = new MenuItem("Generate Course Report");
+    private final MenuItem studentReportItem = new MenuItem("Generate Report Card");
+
+    // Menu options under Help
+    private final MenuItem aboutItem = new MenuItem("About");
+
     public MainView(AccessLevel accessLevel) {
+        // Set up menu bar
+        menuBar.setUseSystemMenuBar(true);
+
+        // Add menu options
+        fileMenu.getItems().addAll(checkDbItem, exportItem, exitItem);
+
+        // Add courseReportItem to report menu if logged in as an administrator or teacher
+        // Add studentReportItem to report menu if logged in as a student
+        if (accessLevel != AccessLevel.STUDENT) {
+            reportMenu.getItems().add(courseReportItem);
+        } else {
+            reportMenu.getItems().add(studentReportItem);
+        }
+
+        helpMenu.getItems().addAll(aboutItem);
+
+        // Add menus to menu bar
+        menuBar.getMenus().addAll(fileMenu, reportMenu, helpMenu);
+
+        // TabPane for selecting the individual views
+        final TabPane tabPane = new TabPane();
 
         // Creates the individual tabs
         Tab teachersTab = new Tab("Teachers", teacherView);
-
         Tab studentsTab = new Tab("Students", studentView);
-
         Tab courseTab = new Tab("Courses", courseView);
-
         Tab examsTab = new Tab("Exams", examView);
-
         Tab departmentTab = new Tab("Departments", departmentView);
 
         // Adds tabs to tabPane based on access level
         if (accessLevel == AccessLevel.ADMIN) {
             tabPane.getTabs().addAll(teachersTab, studentsTab, courseTab, examsTab, departmentTab);
         } else if (accessLevel == AccessLevel.TEACHER) {
-            tabPane.getTabs().addAll(studentsTab, examsTab);
+            tabPane.getTabs().addAll(studentsTab, courseTab, examsTab);
         } else {
             tabPane.getTabs().addAll(examsTab);
         }
@@ -54,7 +87,7 @@ public class MainView extends VBox {
         // Prevents closing tabs in the TabPane
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
-        getChildren().addAll(tabPane);
+        getChildren().addAll(menuBar, tabPane);
 
         Platform.runLater(() -> new AppController(this, accessLevel).start());
     }
@@ -77,5 +110,45 @@ public class MainView extends VBox {
 
     public ExamView getExamView() {
         return examView;
+    }
+
+    public MenuBar getMenuBar() {
+        return menuBar;
+    }
+
+    public Menu getFileMenu() {
+        return fileMenu;
+    }
+
+    public Menu getReportMenu() {
+        return reportMenu;
+    }
+
+    public Menu getHelpMenu() {
+        return helpMenu;
+    }
+
+    public MenuItem getCheckDbItem() {
+        return checkDbItem;
+    }
+
+    public MenuItem getExportItem() {
+        return exportItem;
+    }
+
+    public MenuItem getExitItem() {
+        return exitItem;
+    }
+
+    public MenuItem getCourseReportItem() {
+        return courseReportItem;
+    }
+
+    public MenuItem getStudentReportItem() {
+        return studentReportItem;
+    }
+
+    public MenuItem getAboutItem() {
+        return aboutItem;
     }
 }

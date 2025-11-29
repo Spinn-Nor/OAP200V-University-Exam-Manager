@@ -6,7 +6,6 @@ public class Exam {
         private int id;
         private int studentId;
         private int courseId;
-        // FIXME! Change to Date type
         private LocalDate examDate;
         private String grade;
 
@@ -61,7 +60,11 @@ public class Exam {
         }
 
         public String getGrade() {
-            return grade;
+            if (grade != null) {
+                return grade;
+            } else  {
+                return "No grade";
+            }
         }
 
         public void setGrade(String grade) {

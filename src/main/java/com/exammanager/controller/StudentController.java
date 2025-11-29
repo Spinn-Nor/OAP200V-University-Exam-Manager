@@ -79,8 +79,7 @@ public class StudentController {
     // Bendik
     // Set UI element visibility based on access the access level of the currently logged-in user
     private void setUiElementAvailability() {
-        // accessLevel = AccessLevel.STUDENT;
-
+        // Show CRUD controls for students only when logged in as an administrator
         if (accessLevel == AccessLevel.ADMIN) {
             studentView.getControlBox().setVisible(true);
         }

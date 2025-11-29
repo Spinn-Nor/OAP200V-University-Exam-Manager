@@ -63,4 +63,9 @@ public final class Teacher extends Person {
         this.department = department;
     }
 
+    @Override
+    public String toString() {
+        return getId() + " - " + getFirstName() + " " + getLastName();
+    }
+
 }

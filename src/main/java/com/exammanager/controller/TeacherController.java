@@ -3,9 +3,7 @@ package com.exammanager.controller;
 import com.exammanager.dao.DepartmentDAO;
 import com.exammanager.dao.TeacherDAO;
 import com.exammanager.login.AccessLevel;
-import com.exammanager.model.Course;
 import com.exammanager.model.Department;
-import com.exammanager.model.Student;
 import com.exammanager.util.AlertUtil;
 import com.exammanager.dialog.TeacherDialog;
 import javafx.beans.value.ChangeListener;
@@ -22,7 +20,7 @@ import javafx.collections.transformation.FilteredList;
  * Handles interaction between {@link TeacherView} (UI) and
  * the {@link TeacherDAO} (data access layer). Provides methods
  * to load, add, edit and delete teachers, as well as to refresh
- * the teacher table from TeacherView.
+ * the teacher table in TeacherView.
  * <p>
  * @author Bendik
  */
@@ -45,7 +43,7 @@ public class TeacherController {
     private final DepartmentDAO departmentDAO;
 
     // Access level of the currently logged-in user
-    private AccessLevel accessLevel;
+    private final AccessLevel accessLevel;
 
     public TeacherController(TeacherView view, TeacherDAO teacherDAO, DepartmentDAO departmentDAO, AccessLevel accessLevel) {
         this.teacherView = view;
@@ -90,8 +88,7 @@ public class TeacherController {
 
     // Set UI element visibility based on access the access level of the currently logged-in user
     private void setUiElementAvailability() {
-        // accessLevel = AccessLevel.STUDENT;
-
+        // Show CRUD controls for teachers only when logged in as an administrator
         if (accessLevel == AccessLevel.ADMIN) {
             teacherView.getControlBox().setVisible(true);
         }
@@ -107,21 +104,21 @@ public class TeacherController {
 
         // Adds functionality to the refresh button in TeacherView
         teacherView.getRefreshButton().setOnMouseClicked(event -> {
-            refreshTeacherTable();
+            refresh();
         });
 
         // Adds functionality to the edit button in TeacherView
         teacherView.getEditSelectedButton().setOnMouseClicked(event -> {
             Teacher selectedTeacher = teacherView.getTeacherTable().getSelectionModel().getSelectedItem();
 
-            var result = TeacherDialog.editTeacherDialog(selectedTeacher);
+            var result = TeacherDialog.editTeacherDialog(selectedTeacher, departmentList);
 
             if (result.isPresent()) {
                 var resultTeacher = result.get();
 
                 try {
                     teacherDAO.updateSingle(resultTeacher);
-                    refreshTeacherTable();
+                    refresh();
                 } catch(Exception e) {
                     AlertUtil.showDatabaseConnectionError("Error updating teacher. No database connection.");
                 }
@@ -139,9 +136,9 @@ public class TeacherController {
             if (AlertUtil.confirmationAlert(alertTitleHeader, alertTitleHeader, alertContent)) {
                 try {
                     teacherDAO.deleteList(selectedTeachers);
-                    refreshTeacherTable();
+                    refresh();
                 } catch(Exception e) {
-                    AlertUtil.showDatabaseConnectionError("Error deleting teacher(s). No database connection.");
+                    AlertUtil.showDatabaseConnectionError("Error deleting teacher" + plural + ". No database connection.");
                 }
             }
         });
@@ -161,7 +158,7 @@ public class TeacherController {
                 teacherView.getFirstNameField().clear();
                 teacherView.getLastNameField().clear();
                 teacherView.getEmailField().clear();
-                refreshTeacherTable();
+                refresh();
             } catch (Exception e) {
                 AlertUtil.showDatabaseConnectionError("Error adding teacher. No database connection.");
             }
@@ -197,7 +194,7 @@ public class TeacherController {
         emailField.textProperty().addListener(textFieldListener);
     }
 
-    private void refreshTeacherTable() {
+    private void refresh() {
         try {
             teacherList.setAll(teacherDAO.findAll());
             updateComboBoxSelection();
@@ -217,9 +214,7 @@ public class TeacherController {
             departmentList.setAll(Department.generateExampleDepartments());
         }
 
-        for (Department department : departmentList) {
-            teacherView.getDepartmentComboBox().getItems().add(department);
-        }
+        teacherView.getDepartmentComboBox().setItems(departmentList);
     }
 
     // Adds a ChangeListener to the table in teacherView

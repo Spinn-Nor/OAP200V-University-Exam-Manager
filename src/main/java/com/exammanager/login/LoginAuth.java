@@ -47,7 +47,7 @@ public class LoginAuth {
                 String hash = rs.getString("hash");
                 String salt = rs.getString("salt");
                 // TODO! CHECK THIS
-                AccessLevel accessLevel = AccessLevel.valueOf(rs.getString("accessLevel"));
+                AccessLevel accessLevel = AccessLevel.valueOf(rs.getString("access_level"));
 
                 accessLevel.setEmail(email);
 

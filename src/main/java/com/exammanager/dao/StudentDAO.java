@@ -70,6 +70,41 @@ public class StudentDAO implements DAO<Student> {
     }
 
     /**
+     * Retrieves a student from the database by their email.
+     *
+     * @param email the email of the student to retrieve
+     * @return {@link Optional} containing a {@link Student} object if successful, otherwise empty
+     */
+    public Optional<Student> findByEmail(String email) {
+        if (conn == null) {
+            AlertUtil.showDatabaseConnectionError("Failed to get student. No database connection.");
+            return Optional.empty();
+        }
+
+        String sql = "SELECT * FROM student WHERE email = ?";
+
+        Optional<Student> student = Optional.empty();
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                student = Optional.of(new Student(
+                        rs.getInt("id"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getString("email"),
+                        rs.getInt("enrollment_year")
+                ));
+            }
+        } catch (SQLException e) {
+            AlertUtil.showDatabaseConnectionError("Error while getting student: " + e.getMessage());
+        }
+
+        return student;
+    }
+
+    /**
      * Retrieves a list of all students from the database.
      *
      * @return {@link ObservableList} of {@link Student} objects containing all students

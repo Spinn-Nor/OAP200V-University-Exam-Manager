@@ -15,7 +15,7 @@ import java.util.Properties;
  *
  * @author Bendik
  */
-public class DatabaseConnection {
+public abstract class DatabaseConnection {
 
     private static final String PROPERTIES_FILE = "/db.properties";
 

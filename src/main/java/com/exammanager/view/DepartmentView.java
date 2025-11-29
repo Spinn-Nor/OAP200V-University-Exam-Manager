@@ -27,6 +27,7 @@ public class DepartmentView extends VBox {
     private Button deleteSelectedButton;
 
     private GridPane addForm;
+    private VBox controlBox;
 
     public DepartmentView() {
         setSpacing(10);
@@ -97,8 +98,9 @@ public class DepartmentView extends VBox {
         Region controlSpacer = new Region();
         VBox.setVgrow(controlSpacer, Priority.ALWAYS);
 
-        VBox controlBox = new VBox(10, editSelectedButton, deleteSelectedButton, controlSpacer, addForm);
+        controlBox = new VBox(10, editSelectedButton, deleteSelectedButton, controlSpacer, addForm);
         controlBox.setPrefWidth(300);
+        controlBox.setVisible(false);
 
         HBox mainContainer = new HBox(10, departmentTable, tableSeparator, controlBox);
         HBox.setHgrow(mainContainer, Priority.ALWAYS);
@@ -162,4 +164,7 @@ public class DepartmentView extends VBox {
         return addForm;
     }
 
+    public VBox getControlBox() {
+        return controlBox;
+    }
 }

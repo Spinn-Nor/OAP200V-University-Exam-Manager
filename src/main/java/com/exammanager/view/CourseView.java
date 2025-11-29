@@ -1,6 +1,7 @@
 package com.exammanager.view;
 
 import com.exammanager.model.Course;
+import com.exammanager.model.Teacher;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
@@ -16,16 +17,16 @@ public class CourseView extends VBox {
     private TextField searchField;
     private Button clearSearchButton;
     private Button refreshButton;
-    private TextField course_idField;
-    private TextField course_codeField;
+    private TextField courseCodeField;
     private TextField titleField;
     private TextField creditsField;
-    private TextField teacher_idField;
+    private ComboBox<Teacher> teacherIdComboBox;
     private Button editSelectedButton;
     private Button deleteSelectedButton;
     private Button addButton;
 
     private GridPane addForm;
+    private VBox controlBox;
 
     //Victoria
     // TODO! LOCAL VARIABLES IN CONSTRUCTOR -> CLASS PROPERTIES
@@ -68,7 +69,7 @@ public class CourseView extends VBox {
 
         //Victoria
         // Defines courseTable columns
-        TableColumn<Course, Integer> course_idCol = new TableColumn<>("CourseID");
+        TableColumn<Course, Integer> course_idCol = new TableColumn<>("ID");
         course_idCol.setPrefWidth(50);
         course_idCol.setCellValueFactory(
                 data -> new SimpleIntegerProperty(data.getValue().getId()).asObject()
@@ -86,13 +87,13 @@ public class CourseView extends VBox {
                 data -> new SimpleStringProperty(data.getValue().getTitle())
         );
 
-        TableColumn<Course, Integer> creditsCol = new TableColumn<>("Course");
+        TableColumn<Course, Integer> creditsCol = new TableColumn<>("Credits");
         creditsCol.setPrefWidth(150);
         creditsCol.setCellValueFactory(
                 data -> new SimpleIntegerProperty(data.getValue().getCredits()).asObject()
         );
 
-        TableColumn<Course, Integer> teacher_idCol = new TableColumn<>("TeacherID");
+        TableColumn<Course, Integer> teacher_idCol = new TableColumn<>("Teacher ID");
         teacher_idCol.setPrefWidth(200);
         teacher_idCol.setCellValueFactory(
                 data -> new SimpleIntegerProperty(data.getValue().getTeacherId()).asObject()
@@ -123,21 +124,21 @@ public class CourseView extends VBox {
         addForm.setVgap(10);
 
         addForm.add(new Label("Course code:"), 0, 0);
-        course_codeField = new TextField();
-        addForm.add(course_codeField, 1, 0);
+        courseCodeField = new TextField();
+        addForm.add(courseCodeField, 1, 0);
 
         addForm.add(new Label("Title:"), 0, 1);
         titleField = new TextField();
         addForm.add(titleField, 1, 1);
 
-        // FIXME! DEPARTMENT SHOULD USE A DROPDOWN BOX
         addForm.add(new Label("Credits:"), 0, 2);
         creditsField = new TextField();
         addForm.add(creditsField, 1, 2);
 
         addForm.add(new Label("Teacher:"), 0, 3);
-        teacher_idField = new TextField();
-        addForm.add(teacher_idField, 1, 3);
+        teacherIdComboBox = new ComboBox<>();
+        teacherIdComboBox.setPrefWidth(149);
+        addForm.add(teacherIdComboBox, 1, 3);
 
         addButton = new Button("Add");
         addButton.setDisable(true);
@@ -149,9 +150,10 @@ public class CourseView extends VBox {
         Region controlSpacer = new Region();
         VBox.setVgrow(controlSpacer, Priority.ALWAYS);
 
-        VBox controlBox = new VBox();
+        controlBox = new VBox();
         controlBox.setSpacing(10);
         controlBox.getChildren().addAll(editSelectedButton, deleteSelectedButton, controlSpacer, addForm);
+        controlBox.setVisible(false);
 
         mainContainer.setSpacing(10);
         mainContainer.getChildren().addAll(courseTable, tableSeparator, controlBox);
@@ -196,8 +198,8 @@ public class CourseView extends VBox {
         return clearSearchButton;
     }
 
-    public TextField getCourse_codeField() {
-        return course_codeField;
+    public TextField getCourseCodeField() {
+        return courseCodeField;
     }
 
     //Victoria
@@ -207,6 +209,10 @@ public class CourseView extends VBox {
 
     public TextField getCreditsField() {
         return creditsField;
+    }
+
+    public ComboBox<Teacher> getTeacherIdComboBox() {
+        return teacherIdComboBox;
     }
 
     public Button getEditSelectedButton() {
@@ -223,6 +229,10 @@ public class CourseView extends VBox {
 
     public GridPane getAddForm() {
         return addForm;
+    }
+
+    public VBox getControlBox() {
+        return controlBox;
     }
 }
 

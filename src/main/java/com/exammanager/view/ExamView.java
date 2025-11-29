@@ -142,8 +142,8 @@ public class ExamView extends VBox {
 
         addForm.add(new Label("Grade:"), 0, 3);
         gradeComboBox = new ComboBox<>();
-        gradeComboBox.getItems().addAll("A",  "B", "C", "D", "E", "F");
-        gradeComboBox.setValue("C");
+        gradeComboBox.getItems().addAll("A",  "B", "C", "D", "E", "F", "No grade");
+        gradeComboBox.setValue("No grade");
         addForm.add(gradeComboBox, 1, 3);
 
         addButton = new Button("Add");
@@ -158,7 +158,7 @@ public class ExamView extends VBox {
         controlBox = new VBox();
         controlBox.setSpacing(10);
         controlBox.getChildren().addAll(editSelectedButton, deleteSelectedButton, controlSpacer, addForm);
-        controlBox.setVisible(true);
+        controlBox.setVisible(false);
 
         mainContainer.setSpacing(10);
         mainContainer.getChildren().addAll(examTable, tableSeparator, controlBox);

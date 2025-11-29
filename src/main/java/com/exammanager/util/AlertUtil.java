@@ -12,11 +12,12 @@ import java.util.Optional;
  * <ul>
  *     <li>Database connection errors</li>
  *     <li>Generic errors with custom messages</li>
+ *     <li>Alerts asking for confirmation (e.g. before deletion)</li>
  * </ul>
  *
  * @author Bendik
  */
-public class AlertUtil {
+public abstract class AlertUtil {
 
     public static void showDatabaseConnectionError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
