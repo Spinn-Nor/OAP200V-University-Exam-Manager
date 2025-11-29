@@ -148,8 +148,7 @@ public class TeacherController {
             Teacher teacherToBeAdded = new Teacher(
                     teacherView.getFirstNameField().getText().trim(),
                     teacherView.getLastNameField().getText().trim(),
-                    // FIXME! CHANGE TO DEPARTMENT FROM COMBOBOX
-                    "PLACEHOLDER DEPARTMENT",
+                    teacherView.getDepartmentComboBox().getValue().getName(),
                     teacherView.getEmailField().getText().trim()
             );
 

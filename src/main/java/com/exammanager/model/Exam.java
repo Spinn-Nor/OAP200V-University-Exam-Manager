@@ -17,7 +17,7 @@ public class Exam {
             this.grade = grade;
         }
 
-        public Exam(int StudentId, int courseId, LocalDate examDate, String grade) {
+        public Exam(int studentId, int courseId, LocalDate examDate, String grade) {
             this.studentId = studentId;
             this.courseId = courseId;
             this.examDate = examDate;

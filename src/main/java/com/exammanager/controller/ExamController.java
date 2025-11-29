@@ -155,13 +155,14 @@ public class ExamController {
 
         // Adds functionality to the add exam button in ExamView
         examView.getAddButton().setOnMouseClicked(event -> {
-            String newExamGrade = examView.getGradeComboBox().getValue().equals("No grade") ? null : examView.getGradeComboBox().getValue();
+            // String newExamGrade = examView.getGradeComboBox().getValue().equals("No grade") ? null : examView.getGradeComboBox().getValue();
 
             Exam examToBeAdded = new Exam(
                     examView.getStudentIdComboBox().getValue().getId(),
                     examView.getCourseIdComboBox().getValue().getId(),
                     examView.getExamDatePicker().getValue(),
-                    newExamGrade
+                    // newExamGrade
+                    examView.getGradeComboBox().getValue()
             );
 
             try {

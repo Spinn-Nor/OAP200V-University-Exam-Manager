@@ -73,7 +73,7 @@ public class ExamDAO implements DAO<Exam> {
         }
 
         String sql = "SELECT e.id, e.student_id, e.course_id, e.exam_date, e.grade FROM exam AS e " +
-                     "INNER JOIN student AS s ON e.student_id == s.id " +
+                     "INNER JOIN student AS s ON e.student_id = s.id " +
                      "WHERE s.email = ?";
 
         ObservableList<Exam> exams = FXCollections.observableArrayList();

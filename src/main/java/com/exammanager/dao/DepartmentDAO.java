@@ -104,7 +104,7 @@ public class DepartmentDAO implements DAO<Department> {
             return FXCollections.observableArrayList();
         }
 
-        String sql = "SELECT * FROM department";
+        String sql = "SELECT * FROM department ORDER BY id";
 
         ObservableList<Department> departments = FXCollections.observableArrayList();
 

@@ -34,7 +34,7 @@ CREATE TABLE student (
 DROP TABLE IF EXISTS department;
 CREATE TABLE department (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL
+    name VARCHAR(100) NOT NULL UNIQUE
 );
 
 -- Table: teacher
@@ -45,7 +45,7 @@ CREATE TABLE teacher (
     last_name  VARCHAR(100) NOT NULL,
     department VARCHAR(100) NOT NULL,
     email      VARCHAR(150) UNIQUE NOT NULL,
-    FOREIGN KEY department REFERENCES department(name)
+    FOREIGN KEY (department) REFERENCES department(name)
 );
 
 -- Table: course
@@ -62,7 +62,7 @@ CREATE TABLE course (
 -- Table: exam
 DROP TABLE IF EXISTS exam;
 CREATE TABLE exam (
-    exam_id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     student_id INT NOT NULL,
     course_id  INT NOT NULL,
     exam_date  DATE NOT NULL,

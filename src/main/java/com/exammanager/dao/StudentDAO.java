@@ -177,7 +177,7 @@ public class StudentDAO implements DAO<Student> {
             return;
         }
 
-        String sql = "UPDATE student SET first_name = ?, last_name = ?, email = ?, enrollment_year = ?, WHERE id = ?";
+        String sql = "UPDATE student SET first_name = ?, last_name = ?, email = ?, enrollment_year = ? WHERE id = ?";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, student.getFirstName());
@@ -203,7 +203,7 @@ public class StudentDAO implements DAO<Student> {
             return;
         }
 
-        String sql = "DELETE FROM students WHERE id = ?";
+        String sql = "DELETE FROM student WHERE id = ?";
 
         for (Student student : students) {
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
