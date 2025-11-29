@@ -45,7 +45,7 @@ public class App extends Application {
             // Optional<AccessLevel> loginAuthResult = LoginAuth.loginAuth(email, password);
 
             // FIXME! FOR TESTING
-            var loginAuthResult = loginTeacher();
+            var loginAuthResult = loginAdmin();
 
             loginAuthResult.ifPresent(accessLevel -> switchToMainView(stage, accessLevel));
         });

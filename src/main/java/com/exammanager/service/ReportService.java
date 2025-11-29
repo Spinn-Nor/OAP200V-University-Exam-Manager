@@ -62,12 +62,13 @@ public class ReportService {
 
         ObservableList<Exam> exams = examDAO.findByCourseId(dialogResult.get().getId());
 
-        String fileName = dialogResult.get().getTitle() + "_report.txt";
+        String fileName = dialogResult.get().getTitle() + " report.txt";
         File courseReport = new File(dir, fileName);
         try (BufferedWriter w = Files.newBufferedWriter(courseReport.toPath(), StandardCharsets.UTF_8)) {
             w.write("Course report");
             w.newLine();
             w.write("Course ID: " +  dialogResult.get().getId());
+            w.newLine();
             w.write("Course Title: " + dialogResult.get().getTitle());
             w.newLine();
             for (Exam exam : exams) {
@@ -110,7 +111,7 @@ public class ReportService {
 
         ObservableList<Exam> exams = examDAO.findAllByEmail(email);
 
-        String fileName = "report_card.txt";
+        String fileName = "report card.txt";
         File reportCard = new File(dir, fileName);
         try (BufferedWriter w = Files.newBufferedWriter(reportCard.toPath(), StandardCharsets.UTF_8)) {
             w.write("Report Card");
@@ -148,7 +149,7 @@ public class ReportService {
         HBox content = new HBox();
         content.setAlignment(Pos.CENTER);
 
-        Label courseLabel = new Label("Course:");
+        Label courseLabel = new Label("Course: ");
         content.getChildren().add(courseLabel);
 
         ObservableList<Course> courses = courseDAO.findAll();
