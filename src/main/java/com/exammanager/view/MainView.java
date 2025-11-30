@@ -31,6 +31,7 @@ public class MainView extends VBox {
     private final MenuBar menuBar = new MenuBar();
     private final Menu fileMenu = new Menu("File");
     private final Menu reportMenu  = new Menu("Report");
+    private final Menu userMenu = new Menu("User");
     private final Menu helpMenu = new Menu("Help");
 
     // Menu options under File
@@ -41,6 +42,10 @@ public class MainView extends VBox {
     // Menu options under Report
     private final MenuItem courseReportItem  = new MenuItem("Generate Course Report");
     private final MenuItem studentReportItem = new MenuItem("Generate Report Card");
+
+    // Menu options under User
+    private final MenuItem addUserItem = new MenuItem("Add User");
+    private final MenuItem deleteUserItem = new MenuItem("Delete User");
 
     // Menu options under Help
     private final MenuItem aboutItem = new MenuItem("About");
@@ -67,10 +72,17 @@ public class MainView extends VBox {
             reportMenu.getItems().add(studentReportItem);
         }
 
+        userMenu.getItems().addAll(addUserItem, deleteUserItem);
+
         helpMenu.getItems().addAll(aboutItem);
 
         // Add menus to menu bar
-        menuBar.getMenus().addAll(fileMenu, reportMenu, helpMenu);
+        menuBar.getMenus().addAll(fileMenu, reportMenu);
+
+        // Add User menu to menu bar if logged in as an administrator
+        menuBar.getMenus().add(userMenu);
+
+        menuBar.getMenus().add(helpMenu);
 
         // TabPane for selecting the individual views
         final TabPane tabPane = new TabPane();
@@ -119,22 +131,6 @@ public class MainView extends VBox {
         return examView;
     }
 
-    public MenuBar getMenuBar() {
-        return menuBar;
-    }
-
-    public Menu getFileMenu() {
-        return fileMenu;
-    }
-
-    public Menu getReportMenu() {
-        return reportMenu;
-    }
-
-    public Menu getHelpMenu() {
-        return helpMenu;
-    }
-
     public MenuItem getCheckDbItem() {
         return checkDbItem;
     }
@@ -153,6 +149,14 @@ public class MainView extends VBox {
 
     public MenuItem getStudentReportItem() {
         return studentReportItem;
+    }
+
+    public MenuItem getAddUserItem() {
+        return addUserItem;
+    }
+
+    public MenuItem getDeleteUserItem() {
+        return deleteUserItem;
     }
 
     public MenuItem getAboutItem() {

@@ -3,6 +3,7 @@ package com.exammanager.controller;
 import com.exammanager.dao.*;
 import com.exammanager.login.AccessLevel;
 import com.exammanager.service.ExportService;
+import com.exammanager.service.ManageUserService;
 import com.exammanager.service.ReportService;
 import com.exammanager.util.AlertUtil;
 import com.exammanager.util.DatabaseConnection;
@@ -94,6 +95,10 @@ public class AppController {
         mainView.getCourseReportItem().setOnAction(event -> reportService.generateCourseReport());
 
         mainView.getStudentReportItem().setOnAction(event -> reportService.generateStudentReport(accessLevel.getEmail()));
+
+        mainView.getAddUserItem().setOnAction(event -> ManageUserService.addUser());
+
+        mainView.getDeleteUserItem().setOnAction(event -> ManageUserService.deleteUser(accessLevel.getEmail()));
 
         mainView.getAboutItem().setOnAction(event -> AlertUtil.showAppInformation());
     }
