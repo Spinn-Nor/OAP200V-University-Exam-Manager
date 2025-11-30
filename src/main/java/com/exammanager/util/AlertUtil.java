@@ -2,6 +2,8 @@ package com.exammanager.util;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.stage.Modality;
 
 import java.util.Optional;
 
@@ -44,5 +46,25 @@ public abstract class AlertUtil {
         Optional<ButtonType> result = alert.showAndWait();
 
         return result.isPresent() && result.get() == ButtonType.OK;
+    }
+
+    public static void showAppInformation() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("About");
+        alert.setHeaderText("About Exam Manager");
+        alert.setContentText(
+                "Exam Manager is a simple JavaFX application. \n" +
+                "This application is used for managing teachers, students and exams at a university."
+        );
+        alert.showAndWait();
+    }
+
+    public static void showInformation(String title, String content) {
+        Dialog<String> dialog = new Dialog<>();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.setTitle(title);
+        dialog.setContentText(content);
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.CLOSE);
+        dialog.showAndWait();
     }
 }

@@ -83,7 +83,7 @@ public class ReportService {
                 w.write("Grade: " + exam.getGrade());
                 w.newLine();
             }
-            reportFinishedDialog();
+            AlertUtil.showInformation("Report Finished", "Finished generating course report.");
         } catch (Exception e) {
             AlertUtil.genericError("Error", "Generating report failed. " + e.getMessage());
         }
@@ -132,6 +132,7 @@ public class ReportService {
                 w.write("Grade: " + exam.getGrade());
                 w.newLine();
             }
+            AlertUtil.showInformation("Report Card Finished", "Finished generating report card.");
         } catch (Exception e) {
             AlertUtil.genericError("Error", "Generating report failed. " + e.getMessage());
         }
@@ -178,15 +179,6 @@ public class ReportService {
         });
 
         return dialog.showAndWait();
-    }
-
-    private void reportFinishedDialog() {
-        Dialog<String> dialog = new Dialog<>();
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.setTitle("Report Finished");
-        dialog.setContentText("Finished generating report.");
-        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.CLOSE);
-        dialog.showAndWait();
     }
 
 }

@@ -50,7 +50,14 @@ public class MainView extends VBox {
         menuBar.setUseSystemMenuBar(true);
 
         // Add menu options
-        fileMenu.getItems().addAll(checkDbItem, exportItem, exitItem);
+        fileMenu.getItems().add(checkDbItem);
+
+        // Add exportItem to file menu if logged in as an administrator
+        if (accessLevel == AccessLevel.ADMIN) {
+            fileMenu.getItems().add(exportItem);
+        }
+
+        fileMenu.getItems().add(reportMenu);
 
         // Add courseReportItem to report menu if logged in as an administrator or teacher
         // Add studentReportItem to report menu if logged in as a student
