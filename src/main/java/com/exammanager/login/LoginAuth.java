@@ -2,16 +2,13 @@ package com.exammanager.login;
 
 import com.exammanager.util.AlertUtil;
 import com.exammanager.util.DatabaseConnection;
+import com.exammanager.util.PasswordCryptography;
 
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Optional;
 
 public class LoginAuth {
@@ -38,7 +35,7 @@ public class LoginAuth {
     }
 
     private static Optional<UserDetails> validateUser(Connection conn, String email) {
-        String sql = "SELECT hash, salt, accessLevel FROM users WHERE email = ?";
+        String sql = "SELECT hash, salt, access_level FROM users WHERE email = ?";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, email);
@@ -61,21 +58,13 @@ public class LoginAuth {
         return Optional.empty();
     }
 
-    private static boolean validatePassword(String password, String hash, String salt) {
-        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt.getBytes(), 65536, 256);
+    private static boolean validatePassword(String password, String databaseHash, String salt) {
+        String passwordHashString = PasswordCryptography.hashPassword(password, salt);
 
-        try {
-            SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-            byte[] passwordHash = skf.generateSecret(spec).getEncoded();
+        byte[] hashBytes = Base64.getDecoder().decode(passwordHashString);
+        byte[] databaseHashBytes = Base64.getDecoder().decode(databaseHash);
 
-            if (Arrays.equals(passwordHash, hash.getBytes())) {
-                return true;
-            }
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            throw new RuntimeException("Failed to validate password. " + e);
-        }
-
-        return false;
+        return Arrays.equals(hashBytes, databaseHashBytes);
     }
 
     private static class UserDetails {
