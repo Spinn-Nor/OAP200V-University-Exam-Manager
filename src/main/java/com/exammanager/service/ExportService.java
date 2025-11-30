@@ -52,7 +52,7 @@ public class ExportService {
         try {
             // Export Departments
             List<Department> departments = departmentDao.findAll();
-            File departmentsCsv = new File(dir, "departments.csv");
+            File departmentsCsv = new File(dir, "department.csv");
             try (BufferedWriter w = Files.newBufferedWriter(departmentsCsv.toPath(), StandardCharsets.UTF_8)) {
                 w.write("id, name");
                 w.newLine();
@@ -64,7 +64,7 @@ public class ExportService {
 
             // Export Teachers
             List<Teacher> teachers = teacherDao.findAll();
-            File teacherCsv = new File(dir, "teachers.csv");
+            File teacherCsv = new File(dir, "teacher.csv");
             try (BufferedWriter w = Files.newBufferedWriter(teacherCsv.toPath(), StandardCharsets.UTF_8)) {
                 w.write("id, first_name, last_name, department, email");
                 w.newLine();
@@ -76,7 +76,7 @@ public class ExportService {
 
             // Export Students
             List<Student> students = studentDao.findAll();
-            File studentCsv = new File(dir, "students.csv");
+            File studentCsv = new File(dir, "student.csv");
             try (BufferedWriter w = Files.newBufferedWriter(studentCsv.toPath(), StandardCharsets.UTF_8)) {
                 w.write("id, first_name, last_name, email, enrollment_year");
                 w.newLine();
@@ -88,7 +88,7 @@ public class ExportService {
 
             // Export Courses
             List<Course> courses = courseDao.findAll();
-            File coursesCsv = new File(dir, "courses.csv");
+            File coursesCsv = new File(dir, "course.csv");
             try (BufferedWriter w = Files.newBufferedWriter(coursesCsv.toPath(), StandardCharsets.UTF_8)) {
                 w.write("id, course_code, title, credits, teacher_id");
                 w.newLine();
@@ -100,7 +100,7 @@ public class ExportService {
 
             // Export Exams
             List<Exam> exams = examDao.findAll();
-            File examCsv = new File(dir, "exams.csv");
+            File examCsv = new File(dir, "exam.csv");
             try (BufferedWriter w = Files.newBufferedWriter(examCsv.toPath(), StandardCharsets.UTF_8)) {
                 w.write("id, student_id, course_id, exam_date, grade");
                 w.newLine();
