@@ -2,7 +2,6 @@ package com.exammanager.dialog;
 
 import com.exammanager.model.Exam;
 import com.exammanager.util.AlertUtil;
-import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -12,8 +11,6 @@ import javafx.stage.Modality;
 
 import java.time.LocalDate;
 import java.util.Optional;
-
-import com.exammanager.model.Teacher;
 
 /**
  * A class for creating a dialog window for updating an exam.

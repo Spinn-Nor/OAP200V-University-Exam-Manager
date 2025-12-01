@@ -44,7 +44,6 @@ public class StudentView extends VBox {
     private VBox controlBox;
 
     //Victoria
-    // TODO! LOCAL VARIABLES IN CONSTRUCTOR -> CLASS PROPERTIES
     public StudentView() {
         setSpacing(10);
         setPadding(new Insets(15));
@@ -71,7 +70,6 @@ public class StudentView extends VBox {
         // Creates a separator line between the topbar and the rest of the view
         Separator topbarSeparator = new Separator(Orientation.HORIZONTAL);
 
-        // TODO! Maybe this should be a different pane-type
         HBox mainContainer = new HBox();
         HBox.setHgrow(mainContainer, Priority.ALWAYS);
 
@@ -118,7 +116,6 @@ public class StudentView extends VBox {
         studentTable.getColumns().addAll(idCol, firstNameCol, lastNameCol, emailCol, enrollmentYearCol);
 
         // Creates a separator line between the table and the controls
-        // TODO! Remove?
         Separator tableSeparator = new Separator(Orientation.VERTICAL);
 
         // Defines control buttons
@@ -127,9 +124,6 @@ public class StudentView extends VBox {
 
         deleteSelectedButton = new Button("Delete");
         deleteSelectedButton.setDisable(true);
-
-        // Separator line between edit/delete buttons and add form
-        // Separator controlSeparator = new Separator(Orientation.HORIZONTAL);
 
         //Victoria
         // Creates a form for adding new students

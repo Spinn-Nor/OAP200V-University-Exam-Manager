@@ -20,7 +20,6 @@ import javafx.scene.layout.VBox;
  */
 public class MainView extends VBox {
 
-
     private final TeacherView teacherView = new TeacherView();
     private final StudentView studentView = new StudentView();
     private final CourseView courseView = new CourseView();
@@ -80,7 +79,9 @@ public class MainView extends VBox {
         menuBar.getMenus().addAll(fileMenu, reportMenu);
 
         // Add User menu to menu bar if logged in as an administrator
-        menuBar.getMenus().add(userMenu);
+        if (accessLevel == AccessLevel.ADMIN) {
+            menuBar.getMenus().add(userMenu);
+        }
 
         menuBar.getMenus().add(helpMenu);
 

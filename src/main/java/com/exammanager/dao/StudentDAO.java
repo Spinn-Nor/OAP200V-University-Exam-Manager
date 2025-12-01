@@ -1,11 +1,9 @@
 package com.exammanager.dao;
 
 import com.exammanager.model.Student;
-import com.exammanager.model.Teacher;
 import com.exammanager.util.AlertUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -13,8 +13,9 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import com.exammanager.model.Department;
 
-import java.util.Optional;
-
+/**
+ * @author Anwar
+ */
 public class DepartmentView extends VBox {
 
     private TableView<Department> departmentTable;

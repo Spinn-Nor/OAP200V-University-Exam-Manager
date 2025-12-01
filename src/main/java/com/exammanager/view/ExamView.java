@@ -31,7 +31,6 @@ public class ExamView extends VBox {
     private Button addButton;
     private VBox controlBox;
 
-    // TODO! LOCAL VARIABLES IN CONSTRUCTOR -> CLASS PROPERTIES
     public ExamView() {
         setSpacing(10);
         setPadding(new Insets(15));
@@ -58,7 +57,6 @@ public class ExamView extends VBox {
         // Creates a separator line between the topbar and the rest of the view
         Separator topbarSeparator = new Separator(Orientation.HORIZONTAL);
 
-        // TODO! Maybe this should be a different pane-type
         HBox mainContainer = new HBox();
         HBox.setHgrow(mainContainer, Priority.ALWAYS);
 
@@ -105,7 +103,6 @@ public class ExamView extends VBox {
         examTable.getColumns().addAll(idCol, studentIdCol, courseIdCol, examDateCol, gradeCol);
 
         // Creates a separator line between the table and the controls
-        // TODO! Remove?
         Separator tableSeparator = new Separator(Orientation.VERTICAL);
 
         // Defines control buttons
@@ -114,9 +111,6 @@ public class ExamView extends VBox {
 
         deleteSelectedButton = new Button("Delete");
         deleteSelectedButton.setDisable(true);
-
-        // Separator line between edit/delete buttons and add form
-        // Separator controlSeparator = new Separator(Orientation.HORIZONTAL);
 
         // Creates a form for adding new exams
         GridPane addForm = new GridPane();

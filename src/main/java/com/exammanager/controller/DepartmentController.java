@@ -12,7 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 
 /**
- * @author Anwar
+ * @author Bendik & Anwar
  */
 public class DepartmentController {
 

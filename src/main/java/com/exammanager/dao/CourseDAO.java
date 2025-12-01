@@ -1,7 +1,6 @@
 package com.exammanager.dao;
 
 import com.exammanager.model.Course;
-import com.exammanager.model.Teacher;
 import com.exammanager.util.AlertUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

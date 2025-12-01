@@ -29,7 +29,6 @@ public class CourseView extends VBox {
     private VBox controlBox;
 
     //Victoria
-    // TODO! LOCAL VARIABLES IN CONSTRUCTOR -> CLASS PROPERTIES
     public CourseView() {
         setSpacing(10);
         setPadding(new Insets(15));
@@ -56,7 +55,6 @@ public class CourseView extends VBox {
         // Creates a separator line between the topbar and the rest of the view
         Separator topbarSeparator = new Separator(Orientation.HORIZONTAL);
 
-        // TODO! Maybe this should be a different pane-type
         HBox mainContainer = new HBox();
         HBox.setHgrow(mainContainer, Priority.ALWAYS);
 
@@ -104,7 +102,6 @@ public class CourseView extends VBox {
         courseTable.getColumns().addAll(course_idCol, course_codeCol, titleCol, creditsCol, teacher_idCol);
 
         // Creates a separator line between the table and the controls
-        // TODO! Remove?
         Separator tableSeparator = new Separator(Orientation.VERTICAL);
 
         // Defines control buttons
@@ -113,9 +110,6 @@ public class CourseView extends VBox {
 
         deleteSelectedButton = new Button("Delete");
         deleteSelectedButton.setDisable(true);
-
-        // Separator line between edit/delete buttons and add form
-        // Separator controlSeparator = new Separator(Orientation.HORIZONTAL);
 
         //Victoria
         // Creates a form for adding new courses
@@ -160,7 +154,6 @@ public class CourseView extends VBox {
 
         //Victoria
         // Table search bar
-        // TODO! fix searchbar width
         HBox searchBox = new HBox();
         searchBox.setPrefWidth(800);
         searchBox.setAlignment(Pos.CENTER_LEFT);

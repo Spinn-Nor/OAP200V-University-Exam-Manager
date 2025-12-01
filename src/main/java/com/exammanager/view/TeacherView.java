@@ -46,7 +46,6 @@ public class TeacherView extends VBox {
     private VBox controlBox;
     private GridPane addForm;
 
-    // TODO! LOCAL VARIABLES IN CONSTRUCTOR -> CLASS PROPERTIES
     public TeacherView() {
         setSpacing(10);
         setPadding(new Insets(15));
@@ -73,7 +72,6 @@ public class TeacherView extends VBox {
         // Creates a separator line between the topbar and the rest of the view
         Separator topbarSeparator = new Separator(Orientation.HORIZONTAL);
 
-        // TODO! Maybe this should be a different pane-type
         HBox mainContainer = new HBox();
         HBox.setHgrow(mainContainer, Priority.ALWAYS);
 
@@ -119,7 +117,6 @@ public class TeacherView extends VBox {
         teacherTable.getColumns().addAll(idCol, firstNameCol, lastNameCol, depCol, emailCol);
 
         // Creates a separator line between the table and the controls
-        // TODO! Remove?
         Separator tableSeparator = new Separator(Orientation.VERTICAL);
 
         // Defines control buttons
@@ -128,9 +125,6 @@ public class TeacherView extends VBox {
 
         deleteSelectedButton = new Button("Delete");
         deleteSelectedButton.setDisable(true);
-
-        // Separator line between edit/delete buttons and add form
-        // Separator controlSeparator = new Separator(Orientation.HORIZONTAL);
 
         // Creates a form for adding new teachers
         addForm = new GridPane();
@@ -172,7 +166,6 @@ public class TeacherView extends VBox {
         mainContainer.getChildren().addAll(teacherTable, tableSeparator, controlBox);
 
         // Table search bar
-        // TODO! fix searchbar width
         HBox searchBox = new HBox();
         searchBox.setMaxWidth(800);
         searchBox.setAlignment(Pos.CENTER_LEFT);
