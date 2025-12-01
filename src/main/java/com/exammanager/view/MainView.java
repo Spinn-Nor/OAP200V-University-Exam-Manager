@@ -62,7 +62,7 @@ public class MainView extends VBox {
             fileMenu.getItems().add(exportItem);
         }
 
-        fileMenu.getItems().add(reportMenu);
+        fileMenu.getItems().add(exitItem);
 
         // Add courseReportItem to report menu if logged in as an administrator or teacher
         // Add studentReportItem to report menu if logged in as a student
