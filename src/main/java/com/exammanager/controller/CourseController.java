@@ -55,11 +55,11 @@ public class CourseController {
 
     private void initialize() {
         // Gets courses from the database
-        // FIXME! GENERATES EXAMPLE COURSES IF NO DATABASE CONNECTION
+        // Logs error to terminal if unsuccessful
         try {
             courseList.setAll(courseDAO.findAll());
-        } catch(Exception e) {
-            courseList.setAll(Course.generateExampleCourses());
+        } catch (Exception e) {
+            System.out.println("Failed to get courses: " + e.getMessage());
         }
 
         // Adds courses to the table in CourseView using the filteredCourseList to allow searching
@@ -100,10 +100,7 @@ public class CourseController {
             courseView.getTeacherIdComboBox().getSelectionModel().clearSelection();
             courseView.getTeacherIdComboBox().getItems().clear();
             teacherList.setAll(teacherDAO.findAll());
-        } catch (Exception e) {
-            // FIXME!
-            teacherList.setAll(Teacher.generateExampleTeachers());
-        }
+        } catch (Exception _) {}
 
         courseView.getTeacherIdComboBox().setItems(teacherList);
     }

@@ -63,6 +63,7 @@ public class ExamController {
 
     private void initialize() {
         // Gets exams from the database
+        // Logs error to terminal if unsuccessful
         try {
             // If logged in as a student, get all exams by the users email
             // Otherwise, get all exams
@@ -72,10 +73,7 @@ public class ExamController {
                 examList.setAll(examDAO.findAll());
             }
         } catch (Exception e) {
-            // FIXME! Handle error
-            Exam testExam = new Exam(1, 1, 1, LocalDate.now(), "A");
-            Exam testExam2 = new Exam(2, 1, 1, LocalDate.now(), null);
-            examList.addAll(testExam, testExam2);
+            System.out.println("Failed to get exams: " + e.getMessage());
         }
 
         // Adds exams to the table in ExamView using the filteredExamList to allow searching
@@ -225,10 +223,7 @@ public class ExamController {
 
             studentList.setAll(studentDAO.findAll());
             courseList.setAll(courseDAO.findAll());
-        } catch (Exception e) {
-            studentList.setAll(Student.generateExampleStudents());
-            courseList.setAll(Course.generateExampleCourses());
-        }
+        } catch (Exception _) {}
 
         examView.getStudentIdComboBox().setItems(studentList);
         examView.getCourseIdComboBox().setItems(courseList);

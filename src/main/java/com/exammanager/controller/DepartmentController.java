@@ -43,7 +43,7 @@ public class DepartmentController {
         try {
             departmentList.setAll(departmentDAO.findAll());
         } catch(Exception e) {
-            departmentList.setAll(Department.generateExampleDepartments());
+            System.out.println("Failed to get departments: " + e.getMessage());
         }
 
         // Koble tabellen til filtered list

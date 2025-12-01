@@ -28,21 +28,6 @@ public class Course {
         this.teacherId = teacherId;
     }
 
-    //Generate examples of Courses
-    public static ObservableList<Course> generateExampleCourses() {
-        ObservableList<Course> courseList = FXCollections.observableArrayList();
-
-        Course course1 = new Course(1, "CS101", "Introduction to Programming", 10, 1);
-        Course course2 = new Course(2, "MATH201", "Linear Algebra", 10, 2);
-        Course course3 = new Course(3, "PHYS301", "Quantum Mechanics", 10, 1);
-        Course course4 = new Course(4, "random4","HMM200V", 10, 3);
-        Course course5 = new Course(5, "random5", "ELK3000", 10, 1);
-
-        courseList.addAll(course1, course2, course3, course4, course5);
-
-        return courseList;
-    }
-
     //Getters (Reach data and sees what is inside. It looks inside the box.)
 
     //Victoria

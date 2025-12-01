@@ -39,21 +39,6 @@ public final class Teacher extends Person {
         this.department = department;
     }
 
-    // Generate ObservableList of example teachers
-    public static ObservableList<Teacher> generateExampleTeachers() {
-        ObservableList<Teacher> teacherList = FXCollections.observableArrayList();
-
-        Teacher teacher1 = new Teacher(1, "John", "Doe", "Mathematics", "johndoe@school.com");
-        Teacher teacher2 = new Teacher(2, "Jane", "Smith", "Physics", "janesmith@school.com");
-        Teacher teacher3 = new Teacher(3, "Michael", "Johnson", "History", "michaeljohnson@school.com");
-        Teacher teacher4 = new Teacher(4, "Emily", "Davis", "English", "emilydavis@school.com");
-        Teacher teacher5 = new Teacher(5, "David", "Martinez", "Computer Science", "davidmartinez@school.com");
-
-        teacherList.addAll(teacher1, teacher2, teacher3, teacher4, teacher5);
-
-        return teacherList;
-    }
-
     // Getters and setters
     public String getDepartment() {
         return department;

@@ -48,11 +48,11 @@ public class StudentController {
     // Victoria & Bendik
     private void initialize() {
         // Gets students from the database
-        // FIXME! GENERATES EXAMPLE STUDENTS IF NO DATABASE CONNECTION
+        // Logs error to terminal if unsuccessful
         try {
             studentList.setAll(studentDAO.findAll());
         } catch (Exception e) {
-            studentList.setAll(Student.generateExampleStudents());
+            System.out.println("Failed to get students: " + e.getMessage());
         }
 
         // Adds students to the table in StudentView using the filteredTeacherList to allow searching

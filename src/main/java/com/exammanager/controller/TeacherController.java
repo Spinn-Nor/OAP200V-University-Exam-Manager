@@ -56,11 +56,11 @@ public class TeacherController {
 
     private void initialize() {
         // Gets teachers from the database
-        // FIXME! GENERATES EXAMPLE TEACHERS IF NO DATABASE CONNECTION
+        // Logs error to terminal if unsuccessful
         try {
             teacherList.setAll(teacherDAO.findAll());
         } catch(Exception e) {
-            teacherList.setAll(Teacher.generateExampleTeachers());
+            System.out.println("Failed to get teachers: " + e.getMessage());
         }
 
         // Adds teachers to the table in TeacherView using the filteredTeacherList to allow searching
@@ -208,10 +208,7 @@ public class TeacherController {
             teacherView.getDepartmentComboBox().getSelectionModel().clearSelection();
             teacherView.getDepartmentComboBox().getItems().clear();
             departmentList.setAll(departmentDAO.findAll());
-        } catch (Exception e) {
-            // FIXME!
-            departmentList.setAll(Department.generateExampleDepartments());
-        }
+        } catch (Exception _) {}
 
         teacherView.getDepartmentComboBox().setItems(departmentList);
     }

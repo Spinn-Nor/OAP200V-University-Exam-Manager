@@ -67,7 +67,7 @@ public class App extends Application {
         stage.show();
     }
 
-    // TODO! METHODS SIMULATING SUCCESSFUL LOGIN FOR TESTING
+    // Methods used to force successful login during testing
     private static Optional<AccessLevel> loginAdmin() {
         return Optional.of(AccessLevel.ADMIN);
     }
