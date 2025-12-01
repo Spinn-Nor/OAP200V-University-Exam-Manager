@@ -82,6 +82,11 @@ public abstract class ManageUserService {
             return;
         }
 
+        if (currentUserEmail.equals(dialogResult.get())) {
+            AlertUtil.genericError("Error", "Cannot delete your own user.");
+            return;
+        }
+
         sql =  "DELETE FROM user WHERE email = ?;";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
