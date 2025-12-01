@@ -49,6 +49,7 @@ public abstract class ManageUserService {
             stmt.setString(2, hash);
             stmt.setString(3, salt);
             stmt.setString(4, dialogResult.get().accessLevel.name());
+            stmt.executeUpdate();
         } catch (Exception e) {
             AlertUtil.showDatabaseConnectionError("Error while adding user: " + e.getMessage());
             return;
