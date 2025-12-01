@@ -190,3 +190,11 @@ INSERT INTO exam (student_id, course_id, exam_date, grade) VALUES
 (23, 10, '2024-06-18', 'C'),
 (24, 10, '2024-06-18', 'A');
 
+-- Insert users
+INSERT INTO user (email, hash, salt, access_level) VALUES
+-- hash = admin
+('admin@email.com', 'a8xMBu3kjq2yIt+BoxA9wdSFWHCAxXa/bFxbnhv3mDw=', 'aH8K2ou', 'ADMIN'),
+-- hash = teacher
+('teacher@email.com', 'FxT7tXQ78bi6NZ8xttO3ztNEhK9ANmPAU+ht+xiL+4g=', 'j2ABW8aR', 'TEACHER'),
+-- hash == student
+('student@email.com', 'IXRbyWsSzzkVNkDS2wnDZ/a2sHKGtPO56AdpUNaEnMk=', 'uJA24Ka2', 'STUDENT');
