@@ -11,7 +11,7 @@
   <a href="#key-features">Key Features</a> •
   <a href="#how-to-run">How To Run</a> •
   <a href="#technology-stack">Technology Stack</a> •
-  <a href="#test-accouts">Test Accounts</a> 
+  <a href="#test-accounts">Test Accounts</a> 
 </p>
 
 ## Team 
