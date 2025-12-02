@@ -51,10 +51,8 @@ public abstract class ManageUserService {
         }
 
         String salt = PasswordCryptography.generateSalt();
-        System.out.println(salt);
 
         String hash = PasswordCryptography.hashPassword(dialogResult.get().password, salt);
-        System.out.println(hash);
 
         String sql = "INSERT INTO user (email, hash, salt, access_level) VALUES (?, ?, ?, ?);";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -238,6 +236,7 @@ public abstract class ManageUserService {
         content.getChildren().add(courseLabel);
 
         ComboBox<String> userComboBox = new ComboBox<>(users);
+        content.getChildren().add(userComboBox);
 
         ButtonType closeButton = new ButtonType("Close", ButtonType.CLOSE.getButtonData());
         ButtonType saveButton = new ButtonType("Delete", ButtonType.APPLY.getButtonData());

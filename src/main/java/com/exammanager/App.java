@@ -42,10 +42,7 @@ public class App extends Application {
         loginView.getLoginButton().setOnAction(e -> {
             String email = loginView.getEmailField().getText();
             String password = loginView.getPasswordField().getText();
-            // Optional<AccessLevel> loginAuthResult = LoginAuth.loginAuth(email, password);
-
-            // FIXME! FOR TESTING
-            var loginAuthResult = loginAdmin();
+            Optional<AccessLevel> loginAuthResult = LoginAuth.loginAuth(email, password);
 
             loginAuthResult.ifPresent(accessLevel -> switchToMainView(stage, accessLevel));
         });

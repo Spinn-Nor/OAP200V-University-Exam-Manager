@@ -147,7 +147,7 @@ public class ReportService {
         try (BufferedWriter w = Files.newBufferedWriter(reportCard.toPath(), StandardCharsets.UTF_8)) {
             w.write("Report Card");
             w.newLine();
-            w.write("Student ID:" + studentResult.get().getId());
+            w.write("Student ID: " + studentResult.get().getId());
             w.newLine();
             w.write("Name: " + studentResult.get().getFirstName() + " " + studentResult.get().getLastName());
             w.newLine();
