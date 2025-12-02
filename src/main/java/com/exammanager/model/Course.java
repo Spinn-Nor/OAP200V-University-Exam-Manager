@@ -1,9 +1,26 @@
 package com.exammanager.model;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
-//Victoria
+/**
+ * Represents a course in the Exam Manager application.
+ * <p>
+ * This class is a plain data holder (POJO) containing basic
+ * information about a course, including:
+ * <ul>
+ *     <li>ID</li>
+ *     <li>Course code</li>
+ *     <li>Title</li>
+ *     <li>Credits</li>
+ *     <li>ID of the teacher teaching the course</li>
+ * </ul>
+ * <p>
+ * It provides getters all fields so the data can be
+ * accessed as necessary by the application.
+ * <p>
+ * The course class has two constructors: one with ID for handling database returns, and
+ * one without ID for adding new courses.
+ *
+ * @author Victoria
+ */
 public class Course {
     private int id;
     private String courseCode;

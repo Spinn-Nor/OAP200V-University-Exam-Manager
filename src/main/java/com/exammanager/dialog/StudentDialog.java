@@ -31,6 +31,13 @@ public class StudentDialog {
     private static ButtonType saveButton;
     private static Label emptyFieldWarning;
 
+    /**
+     * Creates a modal dialog window for updating a student.
+     * <p>
+     * @param student the student to update
+     * @return returns a {@link Optional} containing the updated student if saved,
+     * otherwise returns an empty {@link Optional}
+     */
     public static Optional<Student> editStudentDialog(Student student) {
         Dialog<Student> dialog = new Dialog<>();
         dialog.initModality(Modality.APPLICATION_MODAL);

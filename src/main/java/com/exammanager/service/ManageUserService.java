@@ -19,6 +19,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Optional;
 
+/**
+ * An abstract service class used for managing user accounts.
+ * As an abstract class, it contains only static methods and has no constructor.
+ * <p>
+ * @author Bendik
+ */
 public abstract class ManageUserService {
 
     private static TextField emailField;
@@ -26,6 +32,13 @@ public abstract class ManageUserService {
     private static PasswordField confirmPasswordField;
     private static ButtonType saveButton;
 
+    /**
+     * A method for adding a new user account. Internally calls a private helper method
+     * to display a modal dialog window where the user can enter detail about the
+     * new user account to be added. Once details have been entered correctly and
+     * the 'Add' button is clicked, a new password salt is generated, the password
+     * is hashed, and account details are added to the 'user' table in the database.
+     */
     public static void addUser() {
         Connection conn = DatabaseConnection.getConnection();
         if (conn == null) {
@@ -58,14 +71,21 @@ public abstract class ManageUserService {
         AlertUtil.showInformation("User Added", "User '" + dialogResult.get().email + "' added successfully.");
     }
 
-    // TODO!
+    /**
+     * A method for deleting a user account. Internally calls a private helper method
+     * to display a modal containing a combobox where the user can select a user account
+     * to delete. If an account is selected and the 'Delete' button is clicked, deletes the
+     * selected account. Will not allow deleting the currently logged-in account.
+     * <p>
+     * @param currentUserEmail the email of the currently logged-in account
+     */
     public static void deleteUser(String currentUserEmail) {
         Connection conn = DatabaseConnection.getConnection();
         if (conn == null) {
             return;
         }
 
-        String sql = "SELECT email FROM user;";
+        String sql = "SELECT email FROM user";
 
         ObservableList<String> users = FXCollections.observableArrayList();
 
@@ -73,6 +93,8 @@ public abstract class ManageUserService {
             while (rs.next()) {
                 users.add(rs.getString("email"));
             }
+            // Remove the currently logged-in user's email from the list
+            users.removeIf(user -> user.equals(currentUserEmail));
         } catch (Exception e) {
             AlertUtil.showDatabaseConnectionError("Error while deleting user. Could not retrieve users: " + e.getMessage());
             return;

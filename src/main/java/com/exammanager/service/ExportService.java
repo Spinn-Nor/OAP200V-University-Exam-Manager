@@ -13,6 +13,14 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
 
+/**
+ * A service class for handling export of the application's entire database.
+ * Contains a constructor which takes in the applications main view, as well
+ * as all applicable DAOs to initialize the export service, and a method
+ * for exporting the database tables as separate CSV-files.
+ * <p>
+ * @author Bendik
+ */
 public class ExportService {
 
     private final MainView mainView;
@@ -32,6 +40,12 @@ public class ExportService {
         this.departmentDao = departmentDAO;
     }
 
+    /**
+     * A method for exporting the application's entire database.
+     * Checks that all DAOs are initialized, then asks the user for a file-path
+     * to export the database. Once the file-path has been set, it exports all
+     * database tables as separate, appropriately named, CSV-files.
+     */
     public void exportDatabase() {
         if (teacherDao == null || studentDao == null || courseDao == null || examDao == null || departmentDao == null) {
             AlertUtil.showDatabaseConnectionError("Cannot export database without an active database connection");

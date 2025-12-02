@@ -33,6 +33,14 @@ public class TeacherDialog {
     private static ButtonType saveButton;
     private static Label emptyFieldWarning;
 
+    /**
+     * Creates a modal dialog window for updating a teacher.
+     * <p>
+     * @param teacher the exam to update
+     * @param departmentList a list of available departments
+     * @return returns a {@link Optional} containing the updated teacher if saved,
+     * otherwise returns an empty {@link Optional}
+     */
     public static Optional<Teacher> editTeacherDialog(Teacher teacher, ObservableList<Department> departmentList) {
         Dialog<Teacher> dialog = new Dialog<>();
         dialog.initModality(Modality.APPLICATION_MODAL);

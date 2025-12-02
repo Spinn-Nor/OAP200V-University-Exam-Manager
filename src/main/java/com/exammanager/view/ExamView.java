@@ -14,7 +14,22 @@ import javafx.beans.property.SimpleStringProperty;
 import java.time.LocalDate;
 
 /**
- * Can sort multiple columns at once by holding shift
+ * A view for managing exams.
+ * <p>
+ * Provides a user interface with:
+ * <ul>
+ *     <li>A title bar and a refresh button</li>
+ *     <li>A search bar and clear-search button</li>
+ *     <li>A sortable table displaying exam information (ID, student ID, course ID,
+ *     exam date and grade)</li>
+ *     <li>Buttons for editing and deleting exams</li>
+ *     <li>A form for adding new exams</li>
+ * </ul>
+ * <p>
+ * The view exposes getter methods for UI components so that the {@link com.exammanager.controller.ExamController}
+ * can bind functionality and handle user interaction.
+ *
+ * @author Synnøve
  */
 public class ExamView extends VBox {
 

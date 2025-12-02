@@ -18,9 +18,9 @@ import java.util.Optional;
 /**
  * Entry point for the Exam Manager application.
  * <p>
- * This class extends {@link Application} and launches a JavaFX GUI
- * for managing teachers, students and exams at a university.
- * It initializes the main view, sets up the application window (scene), and displays
+ * This class extends {@link Application} and launches a JavaFX GUI (graphical user interface)
+ * for managing teachers, students, courses and exams at a university.
+ * It initializes the login view, main view, sets up the application window (scene), and displays
  * the scene to the user.
  *
  * @author Bendik

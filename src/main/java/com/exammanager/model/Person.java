@@ -1,5 +1,14 @@
 package com.exammanager.model;
 
+/**
+ * A sealed class representing a person. Used as a parent class
+ * for Teacher and Student to define shared attributes and methods.
+ * Includes two constructors, one with ID for handling database returns,
+ * and one without ID for adding new people, as well as getters and
+ * setters for all attributes.
+ * <p>
+ * @author Bendik
+ */
 public sealed class Person permits Teacher, Student {
     private int id;
     private String firstName;

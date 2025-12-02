@@ -13,11 +13,10 @@ import javafx.stage.Modality;
 import java.util.Optional;
 
 /**
- * A class for creating a dialog window for updating a teacher.
+ * A class for creating a dialog window for updating a department .
  * <p>
- * Contains a method which takes a teacher object as an argument, and
- * displays a dialog window where the user can edit the teacher's first name,
- * last name, department and email address.
+ * Contains a method which takes a Department object as an argument, and
+ * displays a dialog window where the user can edit the department's name.
  *
  * @author Bendik
  */
@@ -27,6 +26,13 @@ public class DepartmentDialog {
     private static ButtonType saveButton;
     private static Label emptyFieldWarning;
 
+    /**
+     * Creates a modal dialog window for updating a course.
+     * <p>
+     * @param department the department to update
+     * @return returns a {@link Optional} containing the updated department if saved,
+     * otherwise returns an empty {@link Optional}
+     */
     public static Optional<Department> editDepartmentDialog(Department department) {
         Dialog<Department> dialog = new Dialog<>();
         dialog.initModality(Modality.APPLICATION_MODAL);

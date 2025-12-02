@@ -1,8 +1,5 @@
 package com.exammanager.model;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
 /**
  * Represents a teacher in the Exam Manager application.
  * <p>
@@ -16,8 +13,8 @@ import javafx.collections.ObservableList;
  *     <li>Email address</li>
  * </ul>
  * <p>
- * It provides, or inherits, getters and setters for all fields so the data can be
- * accessed and modified as necessary by the application.
+ * It provides, or inherits, getters all fields necessary fields so the data can be
+ * accessed as necessary by the application.
  * <p>
  * The teacher class has two constructors: one with ID for handling database returns, and
  * one without ID for adding new teachers.

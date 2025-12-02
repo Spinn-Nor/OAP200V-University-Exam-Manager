@@ -33,10 +33,12 @@ public class AppController {
      * <p>
      * This controller-class is responsible for setting up the
      * shared database connection, passing the DB-connection to
-     * the view-specific controllers, as well as connecting the
-     * other controllers with their respective views.
+     * the view-specific controllers, connecting the
+     * other controllers with their respective views, as well as
+     * setting up functionality for the different options in the menu bar.
      *
      * @param mainView the application's main view
+     * @author Bendik
      */
     public AppController(MainView mainView, AccessLevel accessLevel) {
         this.mainView = mainView;

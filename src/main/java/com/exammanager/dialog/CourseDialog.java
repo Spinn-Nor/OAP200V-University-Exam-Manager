@@ -14,6 +14,15 @@ import javafx.stage.Modality;
 
 import java.util.Optional;
 
+/**
+ * A class for creating a dialog window for updating a course.
+ * <p>
+ * Contains a method which takes a Course object as an argument, and
+ * displays a dialog window where the user can edit the course's code,
+ * title, credit and teacherId.
+ *
+ * @author Bendik
+ */
 public class CourseDialog {
 
     private static TextField textFieldCourseCode;
@@ -23,6 +32,14 @@ public class CourseDialog {
     private static ButtonType saveButton;
     private static Label emptyFieldWarning;
 
+    /**
+     * Creates a modal dialog window for updating a course.
+     * <p>
+     * @param course the course to update
+     * @param teacherList a list of available teachers
+     * @return returns a {@link Optional} containing the updated course if saved,
+     * otherwise returns an empty {@link Optional}
+     */
     public static Optional<Course> editCourseDialog(Course course, ObservableList<Teacher> teacherList) {
         Dialog<Course> dialog = new Dialog<>();
         dialog.initModality(Modality.APPLICATION_MODAL);

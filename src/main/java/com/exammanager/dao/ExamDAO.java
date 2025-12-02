@@ -9,6 +9,13 @@ import javafx.collections.ObservableList;
 import java.sql.*;
 import java.util.Optional;
 
+/**
+ * Implementation of the {@link DAO} interface for Exam.
+ * <p>
+ * Provides database operations for the {@link Exam} class, including CRUD (Create, Read, Update, Delete) functionality.
+ * <p>
+ * @author Bendik
+ */
 public class ExamDAO implements DAO<Exam> {
     private final Connection conn;
 

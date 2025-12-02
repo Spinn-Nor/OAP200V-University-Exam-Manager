@@ -1,5 +1,11 @@
 package com.exammanager.login;
 
+/**
+ * An enum defining the different access levels of the application.
+ * Used to define to level of access the currently logged-in user should have.
+ * <p>
+ * @author Bendik
+ */
 public enum AccessLevel {
     ADMIN(""),
     TEACHER(""),

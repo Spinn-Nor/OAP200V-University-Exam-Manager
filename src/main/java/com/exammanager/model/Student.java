@@ -16,8 +16,8 @@ import javafx.collections.ObservableList;
  *     <li>Enrollment year</li>
  * </ul>
  * <p>
- * It provides,or inherits, getters and setters for all fields so the data can be
- * accessed and modified as necessary by the application.
+ * It provides, or inherits, getters for all fields so the data can be
+ * accessed as necessary by the application.
  * <p>
  * The student class has two constructors: one with ID for handling database returns, and
  * one without ID for adding new students.

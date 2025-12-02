@@ -12,6 +12,13 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 
 /**
+ * Controller class for adding functionality to the DepartmentView.
+ * <p>
+ * Handles interaction between {@link DepartmentView} (UI) and
+ * the {@link DepartmentDAO} (data access layer). Provides methods
+ * to load, add, edit and delete departments, as well as to refresh
+ * the exam table from DepartmentTable.
+ * <p>
  * @author Bendik & Anwar
  */
 public class DepartmentController {

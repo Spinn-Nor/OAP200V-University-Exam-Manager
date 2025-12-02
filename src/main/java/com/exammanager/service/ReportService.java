@@ -25,6 +25,16 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Optional;
 
+/**
+ * A service class for generating course reports and student report cards.
+ * Contains a constructor which takes in the applications main view, as well
+ * as all applicable DAOs to initialize the report service, a method for generating
+ * course reports, and a method for generating student report cards. Also contains
+ * a private helper method for displaying a modal dialog window for selecting which
+ * course to generate a report for.
+ * <p>
+ * @author Bendik
+ */
 public class ReportService {
 
     private final MainView mainView;
@@ -40,6 +50,14 @@ public class ReportService {
         this.studentDAO = studentDAO;
     }
 
+    /**
+     * A method for generating course reports. Internally calls a helper
+     * method to display a modal dialog window for selecting a course. Once
+     * a course has been selected and the 'Select' button is clicked, asks the user
+     * to specify a file-path for saving the report. Once the file-path has been set,
+     * generates a report as a TXT-file containing information about the course, and
+     * all exams that have been taken for the specified course.
+     */
     public void generateCourseReport() {
         if (courseDAO == null || examDAO == null) {
             AlertUtil.showDatabaseConnectionError("Cannot generate reports without an active database connection");
@@ -60,6 +78,9 @@ public class ReportService {
         }
 
         ObservableList<Exam> exams = examDAO.findByCourseId(dialogResult.get().getId());
+
+        // Exclude all exams with no grade from the report
+        exams.removeIf(exam -> exam.getGrade().equals("No grade"));
 
         String fileName = dialogResult.get().getTitle() + " report.txt";
         File courseReport = new File(dir, fileName);
@@ -88,6 +109,14 @@ public class ReportService {
         }
     }
 
+    /**
+     * A method for generating a report card for the currently logged-in student.
+     * Asks the user to specify a file-path for saving the report card. Then, generates
+     * a report card containing information about the students, and all exams they
+     * have taken.
+     *
+     * @param email the email address of the currently logged-in student
+     */
     public void generateStudentReport(String email) {
         if (examDAO == null || studentDAO == null) {
             AlertUtil.showDatabaseConnectionError("Cannot generate reports without an active database connection");
@@ -109,6 +138,9 @@ public class ReportService {
         }
 
         ObservableList<Exam> exams = examDAO.findAllByEmail(email);
+
+        // Exclude exams with no grade
+        exams.removeIf(exam -> exam.getGrade().equals("No grade"));
 
         String fileName = "report card.txt";
         File reportCard = new File(dir, fileName);

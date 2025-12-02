@@ -24,6 +24,13 @@ public class ExamDialog {
 
     private static ButtonType saveButton;
 
+    /**
+     * Creates a modal dialog window for updating an exam.
+     * <p>
+     * @param exam the exam to update
+     * @return returns a {@link Optional} containing the updated exam if saved,
+     * otherwise returns an empty {@link Optional}
+     */
     public static Optional<Exam> editExamDialog(Exam exam) {
         Dialog<Exam> dialog = new Dialog<>();
         dialog.initModality(Modality.APPLICATION_MODAL);
